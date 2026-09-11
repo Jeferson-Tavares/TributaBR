@@ -1,19 +1,19 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
 const repoName = "TributaBR";
 
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  basePath: isProd ? `/${repoName}` : "",
-  assetPrefix: isProd ? `/${repoName}/` : "",
+  basePath: isGitHubPages ? `/${repoName}` : "",
+  assetPrefix: isGitHubPages ? `/${repoName}/` : "",
   images: {
     unoptimized: true,
   },
   env: {
-    NEXT_PUBLIC_BASE_PATH: isProd ? `/${repoName}` : "",
+    NEXT_PUBLIC_BASE_PATH: isGitHubPages ? `/${repoName}` : "",
   },
 };
 
