@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 const geist = Geist({ subsets: ["latin"] });
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const iconPath = `${basePath}/logo.png`;
+const iconPath = `${basePath}/faviconTributa.svg`;
 
 export const metadata: Metadata = {
   title: "TRIBUTABR — Entenda a Nova Reforma Tributária Brasileira",
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <head>
-        <link rel="icon" href={iconPath} type="image/png" />
+        <link rel="icon" href={iconPath} type="image/svg+xml" />
       </head>
       <body
         className={`${geist.className} min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 antialiased`}
