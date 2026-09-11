@@ -46,10 +46,14 @@ export default function NoticiasPage() {
   const [activeSources, setActiveSources] = useState<string[]>([]);
   const [sourceType, setSourceType] = useState<string>("");
 
+  const newsApiPath = process.env.NEXT_PUBLIC_BASE_PATH
+    ? `${process.env.NEXT_PUBLIC_BASE_PATH}/api/noticias`
+    : "/api/noticias";
+
   const fetchNews = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/noticias");
+      const res = await fetch(newsApiPath);
       const data = await res.json();
       if (data && data.items) {
         setNews(data.items);
@@ -104,20 +108,22 @@ export default function NoticiasPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fade-in">
-      
       {/* ── CABEÇALHO DA PÁGINA ──────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-blue-900 via-[#0040A8] to-[#003399] rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-2xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold uppercase tracking-wider text-[#FFC700]">
             <Newspaper className="w-3.5 h-3.5" />
-            <span>Feeds RSS Multicanal • G1 & Principais Veículos de Comunicação</span>
+            <span>
+              Feeds RSS Multicanal • G1 & Principais Veículos de Comunicação
+            </span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
             Radar & Notícias da Reforma Tributária
           </h1>
           <p className="text-sm text-blue-100/90 leading-relaxed font-normal">
-            Cobertura jornalística em tempo real integrando os feeds do G1 Economia, Agência Brasil, 
-            Folha de S.Paulo, InfoMoney e Portal Contábeis com foco nas diretrizes dos PLPs 68/2024 e 108/2024.
+            Cobertura jornalística em tempo real integrando os feeds do G1
+            Economia, Agência Brasil, Folha de S.Paulo, InfoMoney e Portal
+            Contábeis com foco nas diretrizes dos PLPs 68/2024 e 108/2024.
           </p>
         </div>
 
@@ -125,14 +131,19 @@ export default function NoticiasPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="w-2 h-2 rounded-full bg-[#009A44] animate-pulse"></span>
             <span className="font-semibold text-white">Canais Integrados:</span>
-            <span>G1 Economia • Agência Brasil • Folha Mercado • InfoMoney • Portal Contábeis</span>
+            <span>
+              G1 Economia • Agência Brasil • Folha Mercado • InfoMoney • Portal
+              Contábeis
+            </span>
           </div>
           <button
             onClick={fetchNews}
             disabled={loading}
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 transition-all font-semibold active:scale-95 self-start sm:self-auto cursor-pointer"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`}
+            />
             <span>{loading ? "Atualizando..." : "Recarregar Feeds"}</span>
           </button>
         </div>
@@ -141,7 +152,6 @@ export default function NoticiasPage() {
       {/* ── BARRA DE BUSCA E FILTROS DE FONTES E TAGS ────────────────── */}
       <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row gap-3">
-          
           {/* Campo de Busca */}
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
@@ -217,7 +227,10 @@ export default function NoticiasPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 animate-pulse">
+            <div
+              key={n}
+              className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 animate-pulse"
+            >
               <div className="h-44 bg-slate-200 rounded-2xl w-full" />
               <div className="h-4 bg-slate-200 rounded w-1/3" />
               <div className="h-6 bg-slate-200 rounded w-3/4" />
@@ -229,9 +242,13 @@ export default function NoticiasPage() {
       ) : filteredNews.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8 space-y-3">
           <AlertCircle className="w-12 h-12 text-slate-400 mx-auto" />
-          <h3 className="text-lg font-bold text-slate-800">Nenhuma notícia encontrada</h3>
+          <h3 className="text-lg font-bold text-slate-800">
+            Nenhuma notícia encontrada
+          </h3>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
-            Não encontramos artigos com o termo <strong>"{searchQuery}"</strong> ou com a tag <strong>"{selectedTag}"</strong>. Tente ajustar os termos de pesquisa.
+            Não encontramos artigos com o termo <strong>"{searchQuery}"</strong>{" "}
+            ou com a tag <strong>"{selectedTag}"</strong>. Tente ajustar os
+            termos de pesquisa.
           </p>
           <button
             onClick={() => {
@@ -268,7 +285,6 @@ export default function NoticiasPage() {
 
                 {/* Conteúdo do Card */}
                 <div className="p-5 space-y-3">
-                  
                   {/* Meta: Data e Tags */}
                   <div className="flex items-center justify-between text-xs text-slate-500">
                     <span className="flex items-center gap-1">

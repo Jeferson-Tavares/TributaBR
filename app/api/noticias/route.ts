@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import Parser from "rss-parser";
 
+export const dynamic = "force-static";
+
 export interface NewsItem {
   id: string;
   title: string;
