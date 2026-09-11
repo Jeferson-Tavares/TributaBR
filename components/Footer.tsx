@@ -6,9 +6,9 @@ export default function Footer() {
   return (
     <footer className="bg-white border-t border-slate-200 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Coluna 1: Marca e Missão */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="sm:col-span-2 lg:col-span-2 space-y-4">
             <Link href="/" className="inline-block">
               <Logo height={42} variant="full" />
             </Link>
@@ -68,7 +68,43 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Coluna 3: Legislação & Marcos */}
+          {/* Coluna 3: Legal & Compliance */}
+          <div>
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+              Legal & Compliance
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link
+                  href="/politica-de-privacidade"
+                  className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#0040A8]" />
+                  Política de Privacidade
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/termos-de-uso"
+                  className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
+                >
+                  <Shield className="w-3.5 h-3.5 text-[#009A44]" />
+                  Termos de Uso
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sobre"
+                  className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-[#FFC700]" />
+                  Sobre Nós & Contato
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Coluna 4: Legislação & Marcos */}
           <div>
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
               Marcos Legais Reais
@@ -76,15 +112,15 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-slate-600">
               <li className="p-2 rounded-lg bg-slate-50 border border-slate-100">
                 <span className="font-bold text-[#0040A8] block">EC nº 132/2023</span>
-                Emenda Constitucional da Reforma Tributária sobre o Consumo (IVA Dual).
+                Reforma Tributária sobre o Consumo (IVA Dual).
               </li>
               <li className="p-2 rounded-lg bg-slate-50 border border-slate-100">
                 <span className="font-bold text-[#009A44] block">PLP 68/2024</span>
-                Regulamentação geral do IBS, CBS e Imposto Seletivo (alíquotas e regimes).
+                Regulamentação da CBS, IBS e Imposto Seletivo.
               </li>
               <li className="p-2 rounded-lg bg-slate-50 border border-slate-100">
                 <span className="font-bold text-[#FFC700] block">PLP 108/2024</span>
-                Comitê Gestor do IBS e diretrizes do Processo Administrativo Tributário.
+                Comitê Gestor do IBS e Processo Administrativo.
               </li>
             </ul>
           </div>
