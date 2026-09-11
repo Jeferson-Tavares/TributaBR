@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 const geist = Geist({ subsets: ["latin"] });
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const iconPath = `${basePath}/icon.png`;
+const iconPath = `${basePath}/logo.png`;
 
 export const metadata: Metadata = {
   title: "TRIBUTABR — Entenda a Nova Reforma Tributária Brasileira",
