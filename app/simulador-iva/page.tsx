@@ -25,10 +25,16 @@ import {
   Sliders,
   Scale,
   Sparkles,
+  Printer,
+  Share2,
+  Copy,
+  Plus,
+  Minus,
 } from "lucide-react";
 import {
   SECTOR_RATES,
   Sector,
+  TaxRegime,
   calcOldSystem,
   calcNewSystem,
   calcTransitionYear,
@@ -84,10 +90,13 @@ export default function SimuladorIvaPage() {
   const [purchaseValueInput, setPurchaseValueInput] = useState<string>("40000");
   const [customIvaInput, setCustomIvaInput] = useState<string>("26.5");
   const [sector, setSector] = useState<Sector>("comercio");
+  const [regime, setRegime] = useState<TaxRegime>("lucro_real");
   const [selectedYear, setSelectedYear] = useState<number>(2033);
   const [hasIS, setHasIS] = useState<boolean>(false);
   const [isRate, setIsRate] = useState<number>(10);
   const [showFormulaDetails, setShowFormulaDetails] = useState<boolean>(false);
+  const [mobileTab, setMobileTab] = useState<"inputs" | "results">("inputs");
+  const [copied, setCopied] = useState<boolean>(false);
 
   // Conversões seguras
   const salePrice = useMemo(() => {
@@ -111,25 +120,25 @@ export default function SimuladorIvaPage() {
 
   const rates = SECTOR_RATES[sector];
 
-  // Cálculos dinâmicos com a alíquota personalizada
+  // Cálculos dinâmicos com regime tributário e alíquota personalizada
   const oldResult = useMemo(
-    () => calcOldSystem(salePrice, sector),
-    [salePrice, sector]
+    () => calcOldSystem(salePrice, sector, regime),
+    [salePrice, sector, regime]
   );
   
   const newResult = useMemo(
-    () => calcNewSystem(salePrice, purchaseValue, sector, 2033, hasIS, isRate, customIvaRate),
-    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate]
+    () => calcNewSystem(salePrice, purchaseValue, sector, 2033, hasIS, isRate, customIvaRate, regime),
+    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime]
   );
 
   const transitionResult = useMemo(
-    () => calcTransitionYear(salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate),
-    [salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate]
+    () => calcTransitionYear(salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate, regime),
+    [salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate, regime]
   );
 
   const chartData = useMemo(
-    () => generateChartData(salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate),
-    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate]
+    () => generateChartData(salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime),
+    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime]
   );
 
   // Variação em relação ao sistema antigo
@@ -184,7 +193,7 @@ export default function SimuladorIvaPage() {
       
       {/* ── HEADER DA PÁGINA ──────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-blue-900 via-[#0040A8] to-[#003399] rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
-        <div className="relative z-10 max-w-2xl space-y-3">
+        <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold uppercase tracking-wider text-[#FFC700]">
             <Calculator className="w-3.5 h-3.5" />
             <span>Simulador Financeiro de Transição • IVA Dual</span>
@@ -193,17 +202,81 @@ export default function SimuladorIvaPage() {
             Simulador de Impacto do IVA Dual
           </h1>
           <p className="text-sm text-blue-100/90 leading-relaxed font-normal">
-            Calcule dinamicamente a carga tributária do seu negócio antes e depois da reforma,
-            com ajuste de sensibilidade de alíquota, fundamentação legal transparente e detalhamento passo a passo da memória de cálculo.
+            Calcule dinamicamente a carga tributária do seu negócio antes e depois da reforma com regimes tributários (Lucro Real, Presumido, Simples), ajuste de sensibilidade de alíquota e exportação em PDF e WhatsApp.
           </p>
+
+          {/* Botões de Ação Rápida: Exportar PDF / Copiar Resumo */}
+          <div className="flex flex-wrap items-center gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 transition-all min-h-[44px] active:scale-95"
+            >
+              <Printer className="w-4 h-4 text-[#FFC700]" />
+              <span>Exportar / Imprimir Relatório</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const text = `📊 *SIMULAÇÃO REFORMA TRIBUTÁRIA (TRIBUTABR)*\n` +
+                  `🏢 Setor: ${rates.label}\n` +
+                  `⚖️ Regime: ${regime === "lucro_real" ? "Lucro Real" : regime === "lucro_presumido" ? "Lucro Presumido" : "Simples Nacional"}\n` +
+                  `💰 Faturamento: ${formatBRL(salePrice)}\n` +
+                  `📦 Insumos / B2B: ${formatBRL(purchaseValue)}\n` +
+                  `------------------------------\n` +
+                  `🔴 Sistema Antigo: ${formatBRL(oldResult.totalTax)} (${formatPercent(oldResult.effectiveRate)})\n` +
+                  `🟢 Novo IVA (${selectedYear}): ${formatBRL(transitionResult.totalTax)} (${formatPercent(transitionResult.effectiveRate)})\n` +
+                  `📈 Variação: ${isSavings ? "Economia de " : "Aumento de "}${formatBRL(Math.abs(diff))} (${diffPct.toFixed(1)}%)\n` +
+                  `✨ Créditos Gerados: ${formatBRL(newResult.creditCbs + newResult.creditIbs)}\n` +
+                  `------------------------------\n` +
+                  `Simule você também no TRIBUTABR: https://tributabr.com.br/simulador-iva`;
+                navigator.clipboard.writeText(text);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 3000);
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all min-h-[44px] active:scale-95"
+            >
+              {copied ? <CheckCircle2 className="w-4 h-4 text-[#FFC700]" /> : <Share2 className="w-4 h-4" />}
+              <span>{copied ? "Copiado para WhatsApp!" : "Compartilhar Resumo"}</span>
+            </button>
+          </div>
         </div>
+      </div>
+
+      {/* ── SELETOR DE ABAS MOBILE (EVITAR SCROLL INFINITO) ── */}
+      <div className="lg:hidden flex rounded-2xl bg-slate-200/80 p-1">
+        <button
+          type="button"
+          onClick={() => setMobileTab("inputs")}
+          className={`flex-1 py-3 text-xs font-black rounded-xl transition-all min-h-[44px] ${
+            mobileTab === "inputs"
+              ? "bg-[#0040A8] text-white shadow-sm"
+              : "text-slate-600 hover:text-slate-900"
+          }`}
+        >
+          1. Parâmetros (Entrada)
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab("results")}
+          className={`flex-1 py-3 text-xs font-black rounded-xl transition-all min-h-[44px] ${
+            mobileTab === "results"
+              ? "bg-[#0040A8] text-white shadow-sm"
+              : "text-slate-600 hover:text-slate-900"
+          }`}
+        >
+          2. Resultados & Gráficos
+        </button>
       </div>
 
       {/* ── GRID PRINCIPAL: INPUTS + RESULTADOS ────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* COLUNA 1: PAINEL DE ENTRADA DE DADOS (Inputs) */}
-        <div className="lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
+        <div className={`lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5 ${
+          mobileTab === "inputs" ? "block" : "hidden lg:block"
+        }`}>
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0040A8] flex items-center justify-center font-bold text-sm">
               1
@@ -258,6 +331,40 @@ export default function SimuladorIvaPage() {
             </p>
           </div>
 
+          {/* Seleção de Regime Tributário */}
+          <div>
+            <div className="flex items-center mb-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Regime Tributário
+              </label>
+              <LegalTooltip
+                title="Enquadramento Tributário da Empresa"
+                law="PLP 68/2024 e LC 123/2006"
+                description="Lucro Real: Não-cumulatividade plena com aproveitamento total de créditos. Lucro Presumido: PIS/Cofins cumulativos no antigo e transição gradual ao IVA. Simples Nacional: Regime simplificado mantido com opção de transferência de créditos."
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-2xl">
+              {[
+                { id: "lucro_real", label: "Lucro Real" },
+                { id: "lucro_presumido", label: "Presumido" },
+                { id: "simples_nacional", label: "Simples" },
+              ].map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  onClick={() => setRegime(r.id as TaxRegime)}
+                  className={`py-2 px-1 text-xs font-bold rounded-xl transition-all min-h-[44px] ${
+                    regime === r.id
+                      ? "bg-[#0040A8] text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Setor de Atuação */}
           <div>
             <div className="flex items-center mb-2">
@@ -267,14 +374,14 @@ export default function SimuladorIvaPage() {
               <LegalTooltip
                 title="Regimes Diferenciados e Específicos"
                 law="PLP 68/2024, Arts. 120 a 160"
-                description="Define setores com alíquota zero (Cesta Básica Nacional), alíquota reduzida em 60% (Saúde, Educação, Dispositivos Médicos) e regimes específicos de tributação."
+                description="Define setores com alíquota zero (Cesta Básica Nacional), alíquota reduzida em 60% (Saúde, Educação, Dispositivos Médicos, Agro) e regimes específicos de tributação."
               />
             </div>
             <div className="relative">
               <select
                 value={sector}
                 onChange={(e) => setSector(e.target.value as Sector)}
-                className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 cursor-pointer"
+                className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 cursor-pointer min-h-[44px]"
               >
                 {Object.entries(SECTOR_RATES).map(([key, val]) => (
                   <option key={key} value={key}>
@@ -286,7 +393,7 @@ export default function SimuladorIvaPage() {
             </div>
           </div>
 
-          {/* Valor da Venda / Faturamento Bruto (sem forçar zero quando vazio) */}
+          {/* Valor da Venda / Faturamento Bruto com Steppers Rápidos */}
           <div>
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center">
@@ -301,21 +408,48 @@ export default function SimuladorIvaPage() {
               </div>
               <span className="text-xs font-bold text-[#0040A8]">{formatBRL(salePrice)}</span>
             </div>
-            <input
-              type="number"
-              value={salePriceInput}
-              placeholder="Digite o valor (ex: 100000)..."
-              onChange={(e) => setSalePriceInput(e.target.value)}
-              min={0}
-              step={10000}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-            <p className="text-[11px] text-slate-400 mt-1">
-              Base da operação para apuração do débito de CBS e IBS.
-            </p>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setSalePriceInput(String(Math.max(0, salePrice - 10000)))}
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                aria-label="Diminuir R$ 10.000"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <input
+                type="number"
+                value={salePriceInput}
+                placeholder="Digite o valor (ex: 100000)..."
+                onChange={(e) => setSalePriceInput(e.target.value)}
+                min={0}
+                step={10000}
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all min-h-[44px]"
+              />
+              <button
+                type="button"
+                onClick={() => setSalePriceInput(String(salePrice + 10000))}
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                aria-label="Aumentar R$ 10.000"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="flex gap-1.5 mt-1.5">
+              {[50000, 100000, 250000, 500000].map((quickVal) => (
+                <button
+                  key={quickVal}
+                  type="button"
+                  onClick={() => setSalePriceInput(String(quickVal))}
+                  className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-blue-50 hover:text-[#0040A8] text-slate-600 border border-slate-200 transition-colors"
+                >
+                  R${quickVal / 1000}k
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Valor dos Insumos / Compras (Crédito) */}
+          {/* Valor dos Insumos / Compras (Crédito) com Steppers Rápidos */}
           <div>
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center">
@@ -330,15 +464,45 @@ export default function SimuladorIvaPage() {
               </div>
               <span className="text-xs font-bold text-[#009A44]">{formatBRL(purchaseValue)}</span>
             </div>
-            <input
-              type="number"
-              value={purchaseValueInput}
-              placeholder="Digite o valor dos insumos (ex: 40000)..."
-              onChange={(e) => setPurchaseValueInput(e.target.value)}
-              min={0}
-              step={5000}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all"
-            />
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setPurchaseValueInput(String(Math.max(0, purchaseValue - 5000)))}
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                aria-label="Diminuir R$ 5.000"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <input
+                type="number"
+                value={purchaseValueInput}
+                placeholder="Digite o valor dos insumos (ex: 40000)..."
+                onChange={(e) => setPurchaseValueInput(e.target.value)}
+                min={0}
+                step={5000}
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all min-h-[44px]"
+              />
+              <button
+                type="button"
+                onClick={() => setPurchaseValueInput(String(purchaseValue + 5000))}
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                aria-label="Aumentar R$ 5.000"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="flex gap-1.5 mt-1.5">
+              {[20000, 40000, 100000, 200000].map((quickVal) => (
+                <button
+                  key={quickVal}
+                  type="button"
+                  onClick={() => setPurchaseValueInput(String(quickVal))}
+                  className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-emerald-50 hover:text-[#009A44] text-slate-600 border border-slate-200 transition-colors"
+                >
+                  R${quickVal / 1000}k
+                </button>
+              ))}
+            </div>
             <p className="text-[11px] text-emerald-600 font-medium mt-1">
               ✓ Gera crédito integral imediato sobre a alíquota da operação.
             </p>
@@ -422,7 +586,9 @@ export default function SimuladorIvaPage() {
         </div>
 
         {/* COLUNA 2 & 3: CARDS DE MÉTRICAS + GRÁFICO RECHARTS + MEMÓRIA DE CÁLCULO */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className={`lg:col-span-2 space-y-6 ${
+          mobileTab === "results" ? "block" : "hidden lg:block"
+        }`}>
           
           {/* CARDS DE RESULTADOS COMPARATIVOS */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -738,6 +904,26 @@ export default function SimuladorIvaPage() {
           </p>
         </div>
       </div>
+
+      {/* JSON-LD Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Simulador de IVA Dual TRIBUTABR",
+            description: "Simulador interativo de transição para a CBS e IBS da Reforma Tributária brasileira.",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "All",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+            },
+          }),
+        }}
+      />
     </div>
   );
 }

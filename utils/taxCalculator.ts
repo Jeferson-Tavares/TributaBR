@@ -3,11 +3,14 @@
 // Lógica isolada conforme diretrizes da EC 132/2023, PLP 68/2024 e PLP 108/2024
 // ============================================================
 
+export type TaxRegime = "lucro_real" | "lucro_presumido" | "simples_nacional";
+
 export type Sector =
   | "industria"
   | "comercio"
   | "servicos"
   | "tecnologia"
+  | "agronegocio"
   | "saude"
   | "educacao"
   | "alimentacao"
@@ -23,49 +26,64 @@ export interface SectorRates {
   cbsFull: number;   // % CBS plena (2033)
   ibsFull: number;   // % IBS pleno (2033)
   isRate: number;    // % Imposto Seletivo (se aplicável)
-  isGoods: boolean;  // Pode ter IS?
+  isGoods: boolean;  // Setor sujeito ao Seletivo?
+  description: string;
 }
 
 export const SECTOR_RATES: Record<Sector, SectorRates> = {
   industria: {
     label: "Indústria Geral",
     pis: 1.65, cofins: 7.6, ipi: 5.0, icms: 17.0, iss: 0,
-    cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: false,
+    cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: true,
+    description: "Desoneração integral de exportações e crédito imediato de bens de capital.",
   },
   comercio: {
     label: "Comércio Varejista",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 17.0, iss: 0,
     cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: false,
+    description: "Extinção da substituição tributária (ST) e créditos amplos sobre energia e logística.",
   },
   servicos: {
     label: "Serviços em Geral",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 0, iss: 5.0,
     cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: false,
+    description: "Alíquota padrão compensada pelo crédito financeiro integral tomado por clientes PJ.",
   },
   tecnologia: {
-    label: "Tecnologia / Software",
+    label: "Tecnologia & Software",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 0, iss: 5.0,
     cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: false,
+    description: "Fim das discussões de software como serviço ou mercadoria. Base digital unificada.",
+  },
+  agronegocio: {
+    label: "Agronegócio & Insumos",
+    pis: 0.65, cofins: 3.0, ipi: 0, icms: 12.0, iss: 0,
+    cbsFull: 3.5, ibsFull: 7.1, isRate: 0, isGoods: false,
+    description: "Redução constitucional de 60% para insumos agrícolas e alíquota zero para produtor rural familiar.",
   },
   saude: {
-    label: "Saúde (redução 60%)",
+    label: "Saúde & Medicamentos (60% redução)",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 12.0, iss: 2.0,
     cbsFull: 3.5, ibsFull: 7.1, isRate: 0, isGoods: false,
+    description: "Redução de 60% para serviços hospitalares e alíquota zero para medicamentos essenciais.",
   },
   educacao: {
-    label: "Educação (redução 60%)",
+    label: "Educação & Ensino (60% redução)",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 0, iss: 3.0,
     cbsFull: 3.5, ibsFull: 7.1, isRate: 0, isGoods: false,
+    description: "Preservação da acessibilidade com redução de 60% em toda a cadeia de ensino.",
   },
   alimentacao: {
-    label: "Alimentação Básica (isenção)",
+    label: "Cesta Básica Nacional (Isenção 100%)",
     pis: 0.65, cofins: 3.0, ipi: 0, icms: 7.0, iss: 0,
     cbsFull: 0, ibsFull: 0, isRate: 0, isGoods: false,
+    description: "Alíquota zero absoluta em todo o país para alimentos essenciais definidos em lei complementar.",
   },
   construcao: {
-    label: "Construção Civil",
+    label: "Construção Civil & Imóveis",
     pis: 1.65, cofins: 7.6, ipi: 0, icms: 12.0, iss: 3.0,
-    cbsFull: 8.8, ibsFull: 17.7, isRate: 0, isGoods: false,
+    cbsFull: 7.0, ibsFull: 14.1, isRate: 0, isGoods: false,
+    description: "Regime específico de bens imóveis com deduções de terreno e redução de carga média em 20%.",
   },
 };
 
@@ -191,19 +209,41 @@ export interface TransitionResult {
 // -------------------------------------------------------------------
 export function calcOldSystem(
   salePrice: number,    // valor informado pelo usuário (preço ao consumidor final)
-  sector: Sector
+  sector: Sector,
+  regime: TaxRegime = "lucro_real"
 ): OldSystemResult {
   const rates = SECTOR_RATES[sector];
+
+  // Ajustes de alíquotas conforme regime no sistema antigo
+  let pisAliq = rates.pis / 100;
+  let cofinsAliq = rates.cofins / 100;
+  let icmsAliq = rates.icms / 100;
+  let issAliq = rates.iss / 100;
+  let ipiAliq = rates.ipi / 100;
+
+  if (regime === "lucro_presumido") {
+    // Lucro Presumido: PIS 0,65% e COFINS 3,00% cumulativos
+    pisAliq = 0.0065;
+    cofinsAliq = 0.03;
+  } else if (regime === "simples_nacional") {
+    // Simples Nacional: Alíquota única integrada estimada conforme setor (~4% a 11%)
+    const simplesRate = sector === "servicos" || sector === "tecnologia" ? 0.09 : 0.06;
+    const totalTax = salePrice * simplesRate;
+    return {
+      pis: totalTax * 0.15,
+      cofins: totalTax * 0.25,
+      ipi: 0,
+      icms: totalTax * 0.40,
+      iss: totalTax * 0.20,
+      totalTax,
+      netPrice: salePrice - totalTax,
+      grossPrice: salePrice,
+      effectiveRate: simplesRate * 100,
+    };
+  }
+
   const hasICMS = rates.icms > 0;
   const hasISS = rates.iss > 0;
-
-  // ICMS é "por dentro": preço ao consumidor já inclui ICMS
-  // preço_sem_icms = preço_com_icms * (1 - alíquota_icms)
-  const icmsAliq = rates.icms / 100;
-  const issAliq = rates.iss / 100;
-  const pisAliq = rates.pis / 100;
-  const cofinsAliq = rates.cofins / 100;
-  const ipiAliq = rates.ipi / 100;
 
   // Valor do ICMS embutido (por dentro)
   const icmsValue = hasICMS ? salePrice * icmsAliq : 0;
@@ -243,19 +283,42 @@ export function calcNewSystem(
   year: number,
   hasIS: boolean,
   isRate: number = 10,     // % IS informado pelo usuário
-  customIvaRate: number = 26.5 // % Alíquota de referência configurável (padrão 26.5%)
+  customIvaRate: number = 26.5, // % Alíquota de referência configurável (padrão 26.5%)
+  regime: TaxRegime = "lucro_real"
 ): NewSystemResult {
   const rates = SECTOR_RATES[sector];
   const schedule = TRANSITION_SCHEDULE.find((t) => t.year === year) || TRANSITION_SCHEDULE[TRANSITION_SCHEDULE.length - 1];
 
   // Proporção padrão da referência (26.5% = 8.8% CBS + 17.7% IBS)
-  // CBS ratio: 8.8 / 26.5 ≈ 0.33207547
-  // IBS ratio: 17.7 / 26.5 ≈ 0.66792452
   const cbsRatio = 8.8 / 26.5;
   const ibsRatio = 17.7 / 26.5;
 
   let nominalCbsRate = schedule.cbsRate;
   let nominalIbsRate = schedule.ibsRate;
+
+  // Tratamento do Simples Nacional no novo sistema:
+  // As ME/EPP podem optar por recolher CBS/IBS pelo regime unificado do Simples (sem crédito integral)
+  // ou optar por recolher CBS/IBS por fora transferindo crédito integral nas operações B2B
+  if (regime === "simples_nacional") {
+    // Alíquota média de Simples na transição (permanece no regime simplificado com carga favorecida)
+    const simplesRate = sector === "servicos" || sector === "tecnologia" ? 0.085 : 0.055;
+    const simTax = salePrice * simplesRate;
+    // No Simples recolhido por dentro, crédito de insumos é reduzido proporcionalmente
+    const creditSim = purchaseValue * simplesRate * 0.4;
+    const netSim = Math.max(0, simTax - creditSim);
+
+    return {
+      cbs: simTax * cbsRatio,
+      ibs: simTax * ibsRatio,
+      is: 0,
+      creditCbs: creditSim * cbsRatio,
+      creditIbs: creditSim * ibsRatio,
+      netCbs: netSim * cbsRatio,
+      netIbs: netSim * ibsRatio,
+      totalTax: netSim,
+      effectiveRate: salePrice > 0 ? (netSim / salePrice) * 100 : 0,
+    };
+  }
 
   // Se o setor tem redução (ex: saúde e educação têm redução de 60%, alíquota é 40% do padrão)
   // Ou isenção (alimentação básica = 0%)
@@ -263,11 +326,10 @@ export function calcNewSystem(
     nominalCbsRate = 0;
     nominalIbsRate = 0;
   } else if (rates.cbsFull < 8.8) {
-    // Redução de 60% (paga 40%)
-    const factor = rates.cbsFull / 8.8; // ex: 3.5 / 8.8 = 0.4
+    // Redução de 60% (paga 40%) ou regime específico
+    const factor = rates.cbsFull / 8.8;
     const baseCbs = customIvaRate * cbsRatio;
     const baseIbs = customIvaRate * ibsRatio;
-    // No ano selecionado, escala conforme o cronograma
     nominalCbsRate = (schedule.cbsRate / 8.8) * (baseCbs * factor);
     nominalIbsRate = schedule.ibsRate > 0 ? (schedule.ibsRate / 17.7) * (baseIbs * factor) : 0;
   } else {
@@ -286,7 +348,7 @@ export function calcNewSystem(
   const cbsDebit = salePrice * cbsAliq;
   const ibsDebit = salePrice * ibsAliq;
 
-  // Créditos das compras
+  // Créditos das compras (Não-cumulatividade plena no Lucro Real e Lucro Presumido sob IVA Dual)
   const creditCbs = purchaseValue * cbsAliq;
   const creditIbs = purchaseValue * ibsAliq;
 
@@ -323,16 +385,42 @@ export function calcTransitionYear(
   year: number,
   hasIS: boolean,
   isRate: number = 10,
-  customIvaRate: number = 26.5
+  customIvaRate: number = 26.5,
+  regime: TaxRegime = "lucro_real"
 ): TransitionResult {
   const rates = SECTOR_RATES[sector];
   const schedule = TRANSITION_SCHEDULE.find((t) => t.year === year)!;
 
-  const pisAliq = rates.pis / 100;
-  const cofinsAliq = rates.cofins / 100;
+  // Ajustes de alíquotas conforme regime no sistema antigo
+  let pisAliq = rates.pis / 100;
+  let cofinsAliq = rates.cofins / 100;
   const ipiAliq = rates.ipi / 100;
   const icmsAliq = rates.icms / 100;
   const issAliq = rates.iss / 100;
+
+  if (regime === "lucro_presumido") {
+    pisAliq = 0.0065;
+    cofinsAliq = 0.03;
+  } else if (regime === "simples_nacional") {
+    const oldRes = calcOldSystem(salePrice, sector, regime);
+    const newRes = calcNewSystem(salePrice, purchaseValue, sector, year, hasIS, isRate, customIvaRate, regime);
+    const weightNew = (year - 2026) / (2033 - 2026);
+    const blendedTotal = oldRes.totalTax * (1 - weightNew) + newRes.totalTax * weightNew;
+
+    return {
+      year,
+      pis: oldRes.pis * (1 - weightNew),
+      cofins: oldRes.cofins * (1 - weightNew),
+      ipi: 0,
+      icms: oldRes.icms * (1 - weightNew),
+      iss: oldRes.iss * (1 - weightNew),
+      cbs: newRes.netCbs * weightNew,
+      ibs: newRes.netIbs * weightNew,
+      is: 0,
+      totalTax: blendedTotal,
+      effectiveRate: salePrice > 0 ? (blendedTotal / salePrice) * 100 : 0,
+    };
+  }
 
   // CBS e IBS dinâmicos proporcionais ao customIvaRate
   const cbsRatio = 8.8 / 26.5;
@@ -517,12 +605,13 @@ export function generateChartData(
   sector: Sector,
   hasIS: boolean,
   isRate: number,
-  customIvaRate: number = 26.5
+  customIvaRate: number = 26.5,
+  regime: TaxRegime = "lucro_real"
 ): ChartDataPoint[] {
-  const oldResult = calcOldSystem(salePrice, sector);
+  const oldResult = calcOldSystem(salePrice, sector, regime);
 
   return TRANSITION_SCHEDULE.map((schedule) => {
-    const t = calcTransitionYear(salePrice, purchaseValue, sector, schedule.year, hasIS, isRate, customIvaRate);
+    const t = calcTransitionYear(salePrice, purchaseValue, sector, schedule.year, hasIS, isRate, customIvaRate, regime);
     return {
       year: schedule.year,
       label: String(schedule.year),

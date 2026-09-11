@@ -331,6 +331,34 @@ export default function NoticiasPage() {
           ))}
         </div>
       )}
+
+      {/* JSON-LD Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Radar de Notícias da Reforma Tributária — TRIBUTABR",
+            description: "Feed RSS atualizado de notícias sobre a Reforma Tributária brasileira, CBS, IBS e regulamentação.",
+            url: "https://tributabr.com.br/noticias",
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: filteredNews.slice(0, 10).map((item, idx) => ({
+                "@type": "NewsArticle",
+                position: idx + 1,
+                headline: item.title,
+                url: item.link,
+                datePublished: item.pubDate,
+                publisher: {
+                  "@type": "Organization",
+                  name: item.source,
+                },
+              })),
+            },
+          }),
+        }}
+      />
     </div>
   );
 }

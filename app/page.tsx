@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import SectorTaxTable from "@/components/SectorTaxTable";
 import TransitionTimeline from "@/components/TransitionTimeline";
+import PafAccordion from "@/components/PafAccordion";
 
 export default function GuiaPage() {
   return (
@@ -28,12 +29,11 @@ export default function GuiaPage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-6">
-            {/* Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold uppercase tracking-wider text-blue-100">
-              <Sparkles className="w-3.5 h-3.5 text-[#FFC700]" />
+            {/* Tag Badge Atualizado */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold uppercase tracking-wider text-[#FFC700] shadow-sm">
+              <Sparkles className="w-4 h-4 text-[#FFC700] animate-pulse" />
               <span>
-                GUIA INDEPENDENTE E INTERATIVO • EC nº 132/2023, PLP 68/2024 &
-                PLP 108/2024
+                Atualizado em conformidade com o PLP 68/2024 e PLP 108/2024
               </span>
             </div>
 
@@ -317,49 +317,8 @@ export default function GuiaPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            <div className="p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-2">
-              <div className="w-8 h-8 rounded-xl bg-[#009A44] flex items-center justify-center font-bold text-white text-sm">
-                ⏱
-              </div>
-              <h4 className="font-bold text-base text-white">
-                Prazo Unificado de 20 Dias Úteis
-              </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                (Diretrizes PLP 108/2024) Padronização de prazos em dias úteis
-                para recursos no contencioso administrativo tributário de CBS e
-                IBS, encerrando disparidades regionais.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-2">
-              <div className="w-8 h-8 rounded-xl bg-[#0040A8] flex items-center justify-center font-bold text-white text-sm">
-                🛡
-              </div>
-              <h4 className="font-bold text-base text-white">
-                Proibição de Caução ou Depósito
-              </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                (Súmula Vinculante 28 do STF & PLP 108/2024) É inconstitucional
-                exigir depósito prévio, fiança ou caução em dinheiro para que o
-                contribuinte possa recorrer de autuações.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-2">
-              <div className="w-8 h-8 rounded-xl bg-[#FFC700] text-slate-900 flex items-center justify-center font-bold text-sm">
-                ⚖️
-              </div>
-              <h4 className="font-bold text-base text-white">
-                Dosimetria e Bônus de Regularização
-              </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                (Diretrizes PLP 108/2024) Dosimetria proporcional de
-                penalidades, com redução progressiva de 20% a 60% para
-                autorregularização voluntária e bom pagador fiscal.
-              </p>
-            </div>
-          </div>
+          {/* Accordion Interativo com Diretrizes do PLP 108/2024 e STF */}
+          <PafAccordion />
 
           <div className="mt-8 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-slate-400">

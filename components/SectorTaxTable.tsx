@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Building2, ShoppingCart, Briefcase, HeartPulse, GraduationCap, Utensils, CheckCircle2, ArrowRight } from "lucide-react";
+import { Building2, ShoppingCart, Briefcase, HeartPulse, GraduationCap, Utensils, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 
 interface SectorComparison {
   id: string;
@@ -156,6 +156,27 @@ const SECTOR_DATA: SectorComparison[] = [
     impactHighlight: "Alimentos indispensáveis terão imposto zero absoluto, acompanhado de mecanismo de Cashback para famílias de baixa renda.",
     impactType: "positivo",
   },
+  {
+    id: "agronegocio",
+    name: "Agronegócio e Produtor Rural",
+    icon: <Sparkles className="w-4 h-4 text-amber-600" />,
+    category: "especial",
+    oldTaxes: [
+      { name: "PIS/COFINS", rate: "0% a 9,25%", mechanism: "Isenções e regimes especiais fragmentados" },
+      { name: "ICMS", rate: "0% a 12,0%", mechanism: "Diferimento interestadual e convênios CONFAZ" },
+      { name: "Funrural", rate: "1,50%", mechanism: "Contribuição previdenciária sobre receita bruta" },
+    ],
+    oldTotalEstimated: "~4,0% a 10,0%",
+    oldMechanism: "Acúmulo de créditos de ICMS e PIS/Cofins em insumos com enorme dificuldade de monetização.",
+    newTaxes: [
+      { name: "CBS Agro (Reduzida)", rate: "3,52%", mechanism: "Redução de 60% para insumos agropecuários" },
+      { name: "IBS Agro (Reduzido)", rate: "7,08%", mechanism: "Redução de 60% para insumos agropecuários" },
+    ],
+    newTotalEstimated: "~10,60% (ou 0% para itens de cesta básica)",
+    newMechanism: "Não-cumulatividade plena com monetização ágil de créditos e crédito presumido para adquirentes do produtor rural pessoa física.",
+    impactHighlight: "Produtores com receita até R$ 3,6 milhões podem optar por não recolher CBS/IBS, transferindo crédito presumido à agroindústria.",
+    impactType: "positivo",
+  },
 ];
 
 export default function SectorTaxTable() {
@@ -179,16 +200,41 @@ export default function SectorTaxTable() {
         </div>
       </div>
 
-      {/* Seletor de Setores Responsivo (Horizontal Scroll no Mobile) */}
-      <div className="overflow-x-auto pb-2 mb-6 scrollbar-thin">
-        <div className="flex gap-2 min-w-max">
+      {/* Seletor de Setores Responsivo: Dropdown nativo no mobile + Pills no desktop */}
+      <div className="mb-6 space-y-3">
+        {/* Dropdown acessível para mobile */}
+        <div className="block sm:hidden">
+          <label htmlFor="sector-select" className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+            Escolha o Setor Econômico:
+          </label>
+          <div className="relative">
+            <select
+              id="sector-select"
+              value={selectedId}
+              onChange={(e) => setSelectedId(e.target.value)}
+              className="w-full appearance-none bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 cursor-pointer shadow-2xs min-h-[44px]"
+            >
+              {SECTOR_DATA.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name} ({s.category.toUpperCase()})
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+              ▼
+            </div>
+          </div>
+        </div>
+
+        {/* Botões/Pills para telas médias e grandes */}
+        <div className="hidden sm:flex flex-wrap gap-2">
           {SECTOR_DATA.map((sector) => {
             const isSelected = sector.id === selectedId;
             return (
               <button
                 key={sector.id}
                 onClick={() => setSelectedId(sector.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-150 border ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-150 border active:scale-95 min-h-[44px] ${
                   isSelected
                     ? "bg-[#0040A8] text-white border-[#0040A8] shadow-md shadow-blue-900/10"
                     : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
@@ -217,26 +263,44 @@ export default function SectorTaxTable() {
             </span>
           </div>
 
-          {/* Tabela com scroll horizontal no mobile */}
-          <div className="overflow-x-auto my-4">
-            <table className="w-full text-xs text-left">
-              <thead>
-                <tr className="text-slate-500 border-b border-red-200/60">
-                  <th className="py-2 pr-2 font-semibold">Tributo</th>
-                  <th className="py-2 px-2 font-semibold">Alíquota Média</th>
-                  <th className="py-2 pl-2 font-semibold">Incidência</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-red-200/40 font-medium">
-                {selectedSector.oldTaxes.map((tax, i) => (
-                  <tr key={i}>
-                    <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
-                    <td className="py-2 px-2 text-red-700">{tax.rate}</td>
-                    <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+          {/* Visualização em Cartões no Mobile e Tabela no Desktop */}
+          <div className="my-4">
+            {/* Mobile: cartões empilhados */}
+            <div className="block sm:hidden space-y-2">
+              {selectedSector.oldTaxes.map((tax, i) => (
+                <div key={i} className="p-2.5 rounded-xl bg-white/90 border border-red-200/80 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-bold text-slate-800 block">{tax.name}</span>
+                    <span className="text-[11px] text-slate-500">{tax.mechanism}</span>
+                  </div>
+                  <span className="font-extrabold text-red-700 bg-red-50 px-2 py-1 rounded-lg border border-red-100">
+                    {tax.rate}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: tabela tradicional */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-xs text-left">
+                <thead>
+                  <tr className="text-slate-500 border-b border-red-200/60">
+                    <th className="py-2 pr-2 font-semibold">Tributo</th>
+                    <th className="py-2 px-2 font-semibold">Alíquota Média</th>
+                    <th className="py-2 pl-2 font-semibold">Incidência</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-red-200/40 font-medium">
+                  {selectedSector.oldTaxes.map((tax, i) => (
+                    <tr key={i}>
+                      <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
+                      <td className="py-2 px-2 text-red-700">{tax.rate}</td>
+                      <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-red-200 space-y-1 text-xs">
@@ -262,26 +326,44 @@ export default function SectorTaxTable() {
             </span>
           </div>
 
-          {/* Tabela com scroll horizontal no mobile */}
-          <div className="overflow-x-auto my-4">
-            <table className="w-full text-xs text-left">
-              <thead>
-                <tr className="text-slate-500 border-b border-emerald-200/60">
-                  <th className="py-2 pr-2 font-semibold">Novo Tributo</th>
-                  <th className="py-2 px-2 font-semibold">Alíquota Projetada</th>
-                  <th className="py-2 pl-2 font-semibold">Regra de Crédito</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-emerald-200/40 font-medium">
-                {selectedSector.newTaxes.map((tax, i) => (
-                  <tr key={i}>
-                    <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
-                    <td className="py-2 px-2 text-[#009A44] font-bold">{tax.rate}</td>
-                    <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+          {/* Visualização em Cartões no Mobile e Tabela no Desktop */}
+          <div className="my-4">
+            {/* Mobile: cartões empilhados */}
+            <div className="block sm:hidden space-y-2">
+              {selectedSector.newTaxes.map((tax, i) => (
+                <div key={i} className="p-2.5 rounded-xl bg-white/90 border border-emerald-200/80 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-bold text-slate-800 block">{tax.name}</span>
+                    <span className="text-[11px] text-slate-500">{tax.mechanism}</span>
+                  </div>
+                  <span className="font-extrabold text-[#009A44] bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-100">
+                    {tax.rate}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: tabela tradicional */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-xs text-left">
+                <thead>
+                  <tr className="text-slate-500 border-b border-emerald-200/60">
+                    <th className="py-2 pr-2 font-semibold">Novo Tributo</th>
+                    <th className="py-2 px-2 font-semibold">Alíquota Projetada</th>
+                    <th className="py-2 pl-2 font-semibold">Regra de Crédito</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-emerald-200/40 font-medium">
+                  {selectedSector.newTaxes.map((tax, i) => (
+                    <tr key={i}>
+                      <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
+                      <td className="py-2 px-2 text-[#009A44] font-bold">{tax.rate}</td>
+                      <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-emerald-200 space-y-1.5 text-xs">

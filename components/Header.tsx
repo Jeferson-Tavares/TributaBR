@@ -167,117 +167,149 @@ export default function Header() {
         </div>
       </div>
 
-      {/* PAINEL DO MENU MOBILE REORGANIZADO */}
+      {/* PAINEL DO MENU MOBILE SLIDE-OVER DRAWER (TOUCH TARGETS >= 44PX) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white shadow-xl animate-fade-in">
-          <div className="max-w-7xl mx-auto px-4 py-5 space-y-4">
-            
-            {/* Seção 1: Ferramentas Interativas */}
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2 block">
-                Simuladores & Cálculos
+        <div className="fixed inset-0 z-50 lg:hidden flex justify-end">
+          {/* Backdrop escuro com blur */}
+          <div
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity animate-fade-in"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer content */}
+          <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-in overflow-y-auto">
+            {/* Header do Drawer */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-200">
+              <span className="font-bold text-sm text-slate-800 flex items-center gap-2">
+                <Layers className="w-4 h-4 text-[#0040A8]" />
+                Navegação TRIBUTABR
               </span>
-              <div className="space-y-2">
-                {NAV_LINKS.filter((item) => item.category === "simulador").map((item) => {
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all ${
-                        active
-                          ? "bg-blue-50 border-blue-200 text-[#0040A8] font-bold shadow-sm"
-                          : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`p-2.5 rounded-xl ${
-                            active
-                              ? "bg-[#0040A8] text-white"
-                              : "bg-blue-50 text-[#0040A8]"
-                          }`}
-                        >
-                          {item.icon}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold">{item.label}</span>
-                            {item.badge && (
-                              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase bg-[#009A44] text-white">
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-slate-500 font-normal">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                      <ChevronRight
-                        className={`w-4 h-4 ${
-                          active ? "text-[#0040A8]" : "text-slate-400"
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-11 h-11 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
+                aria-label="Fechar menu de navegação"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Conteúdo de links */}
+            <div className="p-4 space-y-5 flex-1">
+              {/* Grupo 1: Simuladores */}
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2 block">
+                  Simuladores Interativos
+                </span>
+                <div className="space-y-2">
+                  {NAV_LINKS.filter((item) => item.category === "simulador").map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all min-h-[52px] active:scale-98 ${
+                          active
+                            ? "bg-blue-50 border-blue-200 text-[#0040A8] font-bold shadow-sm"
+                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                         }`}
-                      />
-                    </Link>
-                  );
-                })}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                              active
+                                ? "bg-[#0040A8] text-white"
+                                : "bg-blue-50 text-[#0040A8]"
+                            }`}
+                          >
+                            {item.icon}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-bold">{item.label}</span>
+                              {item.badge && (
+                                <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase bg-[#009A44] text-white">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1">
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                        <ChevronRight
+                          className={`w-4 h-4 flex-shrink-0 ${
+                            active ? "text-[#0040A8]" : "text-slate-400"
+                          }`}
+                        />
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Grupo 2: Conteúdo */}
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2 block">
+                  Conteúdo & Legislação
+                </span>
+                <div className="space-y-2">
+                  {NAV_LINKS.filter((item) => item.category === "conteudo").map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all min-h-[52px] active:scale-98 ${
+                          active
+                            ? "bg-blue-50 border-blue-200 text-[#0040A8] font-bold shadow-sm"
+                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                              active
+                                ? "bg-[#0040A8] text-white"
+                                : "bg-slate-100 text-slate-600"
+                            }`}
+                          >
+                            {item.icon}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-bold">{item.label}</span>
+                              {item.badge && (
+                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase bg-slate-100 text-slate-600 border border-slate-200">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1">
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                        <ChevronRight
+                          className={`w-4 h-4 flex-shrink-0 ${
+                            active ? "text-[#0040A8]" : "text-slate-400"
+                          }`}
+                        />
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Seção 2: Conteúdo & Informações */}
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2 block">
-                Conteúdo & Legislação
-              </span>
-              <div className="space-y-2">
-                {NAV_LINKS.filter((item) => item.category === "conteudo").map((item) => {
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all ${
-                        active
-                          ? "bg-blue-50 border-blue-200 text-[#0040A8] font-bold shadow-sm"
-                          : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`p-2.5 rounded-xl ${
-                            active
-                              ? "bg-[#0040A8] text-white"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
-                        >
-                          {item.icon}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold">{item.label}</span>
-                            {item.badge && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase bg-slate-100 text-slate-600 border border-slate-200">
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-slate-500 font-normal">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                      <ChevronRight
-                        className={`w-4 h-4 ${
-                          active ? "text-[#0040A8]" : "text-slate-400"
-                        }`}
-                      />
-                    </Link>
-                  );
-                })}
-              </div>
+            {/* Rodapé do Drawer */}
+            <div className="p-4 border-t border-slate-200 bg-slate-50 text-[11px] text-slate-500 text-center">
+              Guia independente e educativo sobre a Reforma Tributária.
             </div>
-
           </div>
         </div>
       )}
