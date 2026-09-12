@@ -60,7 +60,7 @@ export default function GuiaPage() {
                 className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#009A44] hover:bg-[#008037] text-white font-bold text-sm transition-all duration-150 shadow-lg shadow-green-950/20 active:scale-98"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Simular IVA Dual (CBS/IBS)</span>
+                <span>Calculadora IVA Dual (CBS/IBS)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
@@ -124,7 +124,7 @@ export default function GuiaPage() {
       {/* ── CONTEÚDO PRINCIPAL ──────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14 sm:space-y-16">
         {/* SEÇÃO 1: COMO ERA VS COMO FICA (Cards Comparativos Responsivos) */}
-        <section className="space-y-6">
+        <section id="cbs-ibs" className="space-y-6 scroll-mt-24">
           <div className="text-center max-w-2xl mx-auto">
             <span className="text-xs font-bold uppercase tracking-wider text-[#0040A8] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
               Transformação Estrutural
@@ -290,7 +290,7 @@ export default function GuiaPage() {
         </section>
 
         {/* SEÇÃO 2: TABELAS INTERATIVAS POR SETOR */}
-        <section>
+        <section id="setores" className="scroll-mt-24">
           <SectorTaxTable />
         </section>
 
@@ -346,15 +346,14 @@ export default function GuiaPage() {
                 <Calculator className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#0040A8] transition-colors">
-                Simulador de IVA Dual (CBS + IBS)
+                Calculadora Didática de IVA Dual (CBS + IBS)
               </h3>
               <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                Insira o faturamento, insumos e veja o impacto exato ano a ano
-                com gráfico dinâmico em Recharts.
+                Insira faturamento e insumos para simular cenários pedagógicos de transição ano a ano com gráfico dinâmico em Recharts.
               </p>
             </div>
             <div className="flex items-center gap-2 text-sm font-bold text-[#0040A8] mt-6">
-              <span>Iniciar Simulação Financeira</span>
+              <span>Simular Cenários Pedagógicos</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
@@ -382,6 +381,104 @@ export default function GuiaPage() {
           </Link>
         </section>
       </div>
+
+      {/* ── DADOS ESTRUTURADOS SCHEMA.ORG (JSON-LD) ────────────────────── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Calculadora Didática IVA Dual TRIBUTABR",
+            operatingSystem: "All",
+            applicationCategory: "EducationalApplication",
+            description:
+              "Simulador pedagógico de impactos da Reforma Tributária (CBS e IBS) baseado no PLP 68/2024.",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline:
+              "Guia da Nova Reforma Tributária Brasileira (EC 132/2023 e PLP 68/2024)",
+            description:
+              "Guia didático e comparativo sobre o novo IVA Dual (CBS e IBS), Imposto Seletivo, regras de transição de 2026 a 2033 e tabelas setoriais.",
+            author: {
+              "@type": "Organization",
+              name: "Equipe Editorial TRIBUTABR",
+              url: "https://tributabr.com.br",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "TRIBUTABR",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://tributabr.com.br/logo.png",
+              },
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://tributabr.com.br/guia",
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "O que é o IVA Dual na Reforma Tributária?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "O IVA Dual é o modelo instituído pela EC nº 132/2023 que unifica cinco tributos antigos (PIS, Cofins, IPI, ICMS e ISS) em dois impostos sobre o consumo: a CBS (federal) e o IBS (estados e municípios).",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Como funciona o período de transição da Reforma Tributária (2026–2033)?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "A transição inicia-se em 2026 com alíquota-teste de 0,9% para CBS e 0,1% para IBS. Em 2027 a CBS entra em vigor pleno, extinguindo PIS e Cofins. De 2029 a 2032 o ICMS e ISS são reduzidos gradualmente à razão de 1/10 ao ano enquanto o IBS assume a arrecadação, atingindo o regime integral em 2033.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "O que é a não-cumulatividade plena do novo IVA?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Com o IVA Dual, todo tributo cobrado na aquisição de insumos, bens e serviços pela empresa vira crédito financeiro imediato, eliminando o efeito cascata e garantindo imposto calculado 'por fora' apenas sobre o valor adicionado.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Quais setores contam com alíquota reduzida no PLP 68/2024?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "O PLP 68/2024 prevê redução de 60% da alíquota padrão (pagando apenas 40%) para serviços de saúde, educação, medicamentos, transporte coletivo e produtos agropecuários, além de alíquota zero para itens da Cesta Básica Nacional.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
     </div>
   );
 }

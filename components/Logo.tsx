@@ -71,7 +71,7 @@ export function LogoIcon({ size = 44 }: { size?: number }) {
     >
       <Image
         src="/icon.png"
-        alt="TRIBUTABR Ícone"
+        alt="TRIBUTABR — Ícone oficial da plataforma de Reforma Tributária Brasileira (IVA Dual e PLP 68/2024)"
         width={size}
         height={size}
         className="w-full h-full object-contain rounded-xl"
@@ -102,7 +102,7 @@ export default function Logo({
       >
         <Image
           src="/logo.png"
-          alt="TRIBUTABR — Entenda a Nova Reforma Tributária"
+          alt="TRIBUTABR — Logotipo oficial: Guia didático e Calculadoras da Reforma Tributária (CBS, IBS e PLP 68/2024)"
           width={Math.round(height * 2.7)}
           height={height}
           className="h-full w-auto object-contain"

@@ -29,8 +29,8 @@ const NAV_LINKS = [
   },
   {
     href: "/simulador-iva",
-    label: "Simulador IVA Dual",
-    shortLabel: "IVA Dual",
+    label: "Calculadora IVA Dual",
+    shortLabel: "Calculadora IVA",
     description: "Cálculo de CBS, IBS, Créditos de Insumos e Transição",
     icon: <Calculator className="w-4 h-4" />,
     badge: "CBS + IBS",
@@ -200,7 +200,7 @@ export default function Header() {
               {/* Grupo 1: Simuladores */}
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2 block">
-                  Simuladores Interativos
+                  Calculadoras e Cenários
                 </span>
                 <div className="space-y-2">
                   {NAV_LINKS.filter((item) => item.category === "simulador").map((item) => {

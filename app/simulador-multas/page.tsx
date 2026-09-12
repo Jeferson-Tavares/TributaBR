@@ -12,9 +12,6 @@ import {
   Scale,
   Sparkles,
   HelpCircle,
-  Printer,
-  Share2,
-  Copy,
   Plus,
   Minus,
 } from "lucide-react";
@@ -34,7 +31,6 @@ export default function SimuladorMultasPage() {
   const [paymentMoment, setPaymentMoment] = useState<PaymentMoment>("impugnacao");
   const [paymentForm, setPaymentForm] = useState<PaymentForm>("integral");
   const [mobileTab, setMobileTab] = useState<"inputs" | "results">("inputs");
-  const [copied, setCopied] = useState<boolean>(false);
 
   const tributeValue = useMemo(() => {
     if (!tributeValueInput || tributeValueInput.trim() === "") return 0;
@@ -67,42 +63,6 @@ export default function SimuladorMultasPage() {
             Calcule os tetos referenciais de penalidades e os descontos progressivos 
             de 20% a 60% por autorregularização voluntária e programa de conformidade fiscal respaldados pelas diretrizes do PLP 108/2024.
           </p>
-
-          {/* Botões de Ação: Exportar PDF / Copiar Resumo */}
-          <div className="flex flex-wrap items-center gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 transition-all min-h-[44px] active:scale-95"
-            >
-              <Printer className="w-4 h-4 text-[#FFC700]" />
-              <span>Exportar / Imprimir Relatório</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                const text = `⚖️ *SIMULAÇÃO DE MULTAS FISCAIS (PLP 108/2024)*\n` +
-                  `💰 Valor do Tributo: ${formatBRL(tributeValue)}\n` +
-                  `⚠️ Multa Original: ${basePenaltyRate}% (${formatBRL((tributeValue * basePenaltyRate) / 100)})\n` +
-                  `🛡️ Teto Legal Aplicado: ${capRatePct}% (${formatBRL(result.cappedPenalty)})\n` +
-                  `------------------------------\n` +
-                  `🟢 Desconto por Regularização: ${formatPercent(result.discountRate * 100)}\n` +
-                  `💵 Multa com Desconto: ${formatBRL(result.finalPenalty)}\n` +
-                  `⭐ Com Bônus de Conformidade: ${formatBRL(result.finalPenaltyBonus)}\n` +
-                  `🎉 Economia Total: ${formatBRL(result.savings)}\n` +
-                  `------------------------------\n` +
-                  `Simulação via TRIBUTABR: https://tributabr.com.br/simulador-multas`;
-                navigator.clipboard.writeText(text);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 3000);
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all min-h-[44px] active:scale-95"
-            >
-              {copied ? <CheckCircle2 className="w-4 h-4 text-[#FFC700]" /> : <Share2 className="w-4 h-4" />}
-              <span>{copied ? "Copiado para WhatsApp!" : "Compartilhar Resumo"}</span>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -388,9 +348,9 @@ export default function SimuladorMultasPage() {
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h2 className="text-base font-bold text-slate-900">
                   Matriz de Descontos e Regularização Voluntária (Diretrizes PLP 108/2024)
-                </h3>
+                </h2>
                 <p className="text-xs text-slate-500">
                   Valores calculados sobre a multa ajustada de {formatBRL(result.cappedPenalty)}.
                 </p>
@@ -492,10 +452,11 @@ export default function SimuladorMultasPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Simulador de Multas Fiscais TRIBUTABR",
-            description: "Simulador de dosimetria de multas tributárias e descontos de regularização sob o PLP 108/2024.",
-            applicationCategory: "BusinessApplication",
+            name: "Calculadora Didática de Multas Fiscais TRIBUTABR",
             operatingSystem: "All",
+            applicationCategory: "EducationalApplication",
+            description:
+              "Simulador pedagógico de dosimetria de multas tributárias e descontos de regularização sob o PLP 108/2024.",
             offers: {
               "@type": "Offer",
               price: "0",

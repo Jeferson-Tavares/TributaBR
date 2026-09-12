@@ -273,7 +273,7 @@ export default function NoticiasPage() {
                   <div className="relative h-44 w-full overflow-hidden bg-slate-100">
                     <img
                       src={item.imageUrl}
-                      alt={item.title}
+                      alt={item.title ? `${item.title} — Notícia Reforma Tributária TRIBUTABR` : "Notícia sobre a Reforma Tributária — TRIBUTABR"}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />

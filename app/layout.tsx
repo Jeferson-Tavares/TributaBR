@@ -25,19 +25,28 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Equipe Editorial TRIBUTABR" }],
   openGraph: {
-    title: "TRIBUTABR — Guia e Simuladores da Reforma Tributária",
+    title: "TRIBUTABR — Guia Didático e Calculadoras da Reforma Tributária",
     description:
-      "Simule o impacto do IVA Dual (CBS/IBS), dosimetria de multas fiscais e acompanhe notícias em tempo real sobre a Reforma Tributária brasileira.",
+      "Simule cenários do IVA Dual (CBS/IBS), dosimetria de multas fiscais e acompanhe notícias em tempo real sobre a Reforma Tributária brasileira.",
     url: "https://tributabr.com.br",
     siteName: "TRIBUTABR",
     locale: "pt_BR",
     type: "website",
+    images: [
+      {
+        url: "https://tributabr.com.br/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "TRIBUTABR — Guia e Calculadoras da Reforma Tributária",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TRIBUTABR — Guia e Simulador da Reforma Tributária",
+    title: "TRIBUTABR — Guia Didático e Calculadora da Reforma Tributária",
     description:
-      "Entenda o novo IVA Dual, regras de transição de 2026 a 2033 e calcule créditos na cadeia produtiva.",
+      "Entenda o novo IVA Dual, regras de transição de 2026 a 2033 e calcule cenários de créditos na cadeia produtiva.",
+    images: ["https://tributabr.com.br/logo.png"],
   },
   icons: {
     icon: iconPath,

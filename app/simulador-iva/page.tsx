@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   BarChart,
   Bar,
@@ -25,9 +26,6 @@ import {
   Sliders,
   Scale,
   Sparkles,
-  Printer,
-  Share2,
-  Copy,
   Plus,
   Minus,
 } from "lucide-react";
@@ -96,7 +94,6 @@ export default function SimuladorIvaPage() {
   const [isRate, setIsRate] = useState<number>(10);
   const [showFormulaDetails, setShowFormulaDetails] = useState<boolean>(false);
   const [mobileTab, setMobileTab] = useState<"inputs" | "results">("inputs");
-  const [copied, setCopied] = useState<boolean>(false);
 
   // Conversões seguras
   const salePrice = useMemo(() => {
@@ -196,51 +193,14 @@ export default function SimuladorIvaPage() {
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold uppercase tracking-wider text-[#FFC700]">
             <Calculator className="w-3.5 h-3.5" />
-            <span>Simulador Financeiro de Transição • IVA Dual</span>
+            <span>FERRAMENTA PEDAGÓGICA • CENÁRIOS PLP 68/2024</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-            Simulador de Impacto do IVA Dual
+            Calculadora Didática de Cenários da Reforma Tributária (IVA Dual)
           </h1>
           <p className="text-sm text-blue-100/90 leading-relaxed font-normal">
-            Calcule dinamicamente a carga tributária do seu negócio antes e depois da reforma com regimes tributários (Lucro Real, Presumido, Simples), ajuste de sensibilidade de alíquota e exportação em PDF e WhatsApp.
+            Simule cenários acadêmicos e estimativas de transição tributária com base nos textos do PLP 68/2024 e premissas do Ministério da Fazenda.
           </p>
-
-          {/* Botões de Ação Rápida: Exportar PDF / Copiar Resumo */}
-          <div className="flex flex-wrap items-center gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 transition-all min-h-[44px] active:scale-95"
-            >
-              <Printer className="w-4 h-4 text-[#FFC700]" />
-              <span>Exportar / Imprimir Relatório</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                const text = `📊 *SIMULAÇÃO REFORMA TRIBUTÁRIA (TRIBUTABR)*\n` +
-                  `🏢 Setor: ${rates.label}\n` +
-                  `⚖️ Regime: ${regime === "lucro_real" ? "Lucro Real" : regime === "lucro_presumido" ? "Lucro Presumido" : "Simples Nacional"}\n` +
-                  `💰 Faturamento: ${formatBRL(salePrice)}\n` +
-                  `📦 Insumos / B2B: ${formatBRL(purchaseValue)}\n` +
-                  `------------------------------\n` +
-                  `🔴 Sistema Antigo: ${formatBRL(oldResult.totalTax)} (${formatPercent(oldResult.effectiveRate)})\n` +
-                  `🟢 Novo IVA (${selectedYear}): ${formatBRL(transitionResult.totalTax)} (${formatPercent(transitionResult.effectiveRate)})\n` +
-                  `📈 Variação: ${isSavings ? "Economia de " : "Aumento de "}${formatBRL(Math.abs(diff))} (${diffPct.toFixed(1)}%)\n` +
-                  `✨ Créditos Gerados: ${formatBRL(newResult.creditCbs + newResult.creditIbs)}\n` +
-                  `------------------------------\n` +
-                  `Simule você também no TRIBUTABR: https://tributabr.com.br/simulador-iva`;
-                navigator.clipboard.writeText(text);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 3000);
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all min-h-[44px] active:scale-95"
-            >
-              {copied ? <CheckCircle2 className="w-4 h-4 text-[#FFC700]" /> : <Share2 className="w-4 h-4" />}
-              <span>{copied ? "Copiado para WhatsApp!" : "Compartilhar Resumo"}</span>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -590,6 +550,19 @@ export default function SimuladorIvaPage() {
           mobileTab === "results" ? "block" : "hidden lg:block"
         }`}>
           
+          {/* BOX VISUAL DE NOTA METODOLÓGICA (AVISO DESTACADO) */}
+          <div className="p-4 sm:p-5 rounded-3xl bg-amber-50/80 border-2 border-amber-300/80 text-amber-950 text-xs shadow-sm flex items-start gap-3">
+            <span className="text-lg flex-shrink-0 mt-0.5 select-none" aria-hidden="true">📌</span>
+            <div className="space-y-1 leading-relaxed">
+              <p className="font-bold text-amber-900 text-xs sm:text-sm">
+                Nota Metodológica:
+              </p>
+              <p className="text-amber-950/90 font-medium">
+                Esta ferramenta possui caráter exclusivamente educativo e de simulação acadêmica. Os cálculos adotam as alíquotas de referência projetadas pelo Ministério da Fazenda e o texto atual do PLP 68/2024. Não constitui parecer contábil, jurídico ou financeiro formal.
+              </p>
+            </div>
+          </div>
+
           {/* CARDS DE RESULTADOS COMPARATIVOS */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             
@@ -653,6 +626,21 @@ export default function SimuladorIvaPage() {
             </div>
           </div>
 
+          {/* INTEGRAÇÃO DOS RESULTADOS COM O GUIA DA REFORMA (CTA SECUNDÁRIO) */}
+          <Link
+            href={sector === "comercio" || sector === "industria" ? "/guia#cbs-ibs" : "/guia#setores"}
+            className="flex items-center justify-between p-4 rounded-3xl bg-gradient-to-r from-blue-50 via-white to-blue-50 border-2 border-blue-200/90 text-[#0040A8] hover:border-[#0040A8] hover:shadow-md transition-all group active:scale-98 text-xs sm:text-sm font-bold"
+          >
+            <span className="flex items-center gap-2">
+              <span className="text-base" aria-hidden="true">📖</span>
+              <span>Entenda as regras e alíquotas deste setor ({rates.label}) no Guia da Reforma</span>
+            </span>
+            <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform text-[#0040A8]">
+              <span>Acessar Guia</span>
+              <span aria-hidden="true">→</span>
+            </span>
+          </Link>
+
           {/* NOVO: ACCORDION DE MEMÓRIA DE CÁLCULO E DETALHAMENTO DA FÓRMULA */}
           <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
             <button
@@ -665,12 +653,12 @@ export default function SimuladorIvaPage() {
                   <FileSpreadsheet className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                     Ver Memória de Cálculo e Detalhamento da Fórmula
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-[#0040A8] font-black">
                       PLP 68/2024
                     </span>
-                  </h3>
+                  </h2>
                   <p className="text-xs text-slate-500">
                     Demonstração analítica da apuração de débitos, créditos e repartição federativa (2033).
                   </p>
@@ -790,9 +778,9 @@ export default function SimuladorIvaPage() {
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h2 className="text-base font-bold text-slate-900">
                   Evolução da Arrecadação por Tributo (2026–2033)
-                </h3>
+                </h2>
                 <p className="text-xs text-slate-500">
                   Acompanhe como a extinção de ICMS, ISS e PIS/Cofins é compensada pela entrada da CBS e IBS com alíquota padrão configurada em {customIvaRate.toFixed(1)}%.
                 </p>
@@ -850,9 +838,9 @@ export default function SimuladorIvaPage() {
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-base font-bold text-slate-900">
+                <h2 className="text-base font-bold text-slate-900">
                   Benefício da Não-Cumulatividade Plena
-                </h4>
+                </h2>
                 <p className="text-xs text-slate-600">
                   No novo IVA Dual, todas as compras de insumos e serviços empresariais geram crédito de abatimento.
                 </p>
@@ -912,10 +900,11 @@ export default function SimuladorIvaPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Simulador de IVA Dual TRIBUTABR",
-            description: "Simulador interativo de transição para a CBS e IBS da Reforma Tributária brasileira.",
-            applicationCategory: "BusinessApplication",
+            name: "Calculadora Didática IVA Dual TRIBUTABR",
             operatingSystem: "All",
+            applicationCategory: "EducationalApplication",
+            description:
+              "Simulador pedagógico de impactos da Reforma Tributária (CBS e IBS) baseado no PLP 68/2024.",
             offers: {
               "@type": "Offer",
               price: "0",
