@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: "/guia",
+  },
   title: "Guia da Reforma Tributária (EC 132/2023 & PLP 68/2024) | TRIBUTABR",
   description:
     "Entenda o novo IVA Dual (CBS e IBS), alíquotas por setor econômico, cronograma de transição de 2026 a 2033 e a extinção de PIS, Cofins, IPI, ICMS e ISS.",

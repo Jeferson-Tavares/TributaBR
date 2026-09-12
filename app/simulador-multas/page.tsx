@@ -29,7 +29,8 @@ export default function SimuladorMultasPage() {
   const [tributeValueInput, setTributeValueInput] = useState<string>("100000");
   const [basePenaltyRate, setBasePenaltyRate] = useState<number>(75);
   const [penaltyType, setPenaltyType] = useState<PenaltyType>("standard");
-  const [paymentMoment, setPaymentMoment] = useState<PaymentMoment>("impugnacao");
+  const [paymentMoment, setPaymentMoment] =
+    useState<PaymentMoment>("impugnacao");
   const [paymentForm, setPaymentForm] = useState<PaymentForm>("integral");
   const [mobileTab, setMobileTab] = useState<"inputs" | "results">("inputs");
 
@@ -40,8 +41,15 @@ export default function SimuladorMultasPage() {
   }, [tributeValueInput]);
 
   const result = useMemo(
-    () => calcPenalty(tributeValue, basePenaltyRate, penaltyType, paymentMoment, paymentForm),
-    [tributeValue, basePenaltyRate, penaltyType, paymentMoment, paymentForm]
+    () =>
+      calcPenalty(
+        tributeValue,
+        basePenaltyRate,
+        penaltyType,
+        paymentMoment,
+        paymentForm,
+      ),
+    [tributeValue, basePenaltyRate, penaltyType, paymentMoment, paymentForm],
   );
 
   const capRatePct = result.capRate * 100;
@@ -49,20 +57,23 @@ export default function SimuladorMultasPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fade-in">
-      
       {/* ── HEADER DA PÁGINA ──────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-slate-900 via-[#0040A8] to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold uppercase tracking-wider text-[#FFC700]">
             <Shield className="w-3.5 h-3.5" />
-            <span>Processo Administrativo Fiscal • Diretrizes PLP 108/2024</span>
+            <span>
+              Processo Administrativo Fiscal • Diretrizes PLP 108/2024
+            </span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
             Simulador de Multas & Penalidades Fiscais
           </h1>
           <p className="text-sm text-blue-100/90 leading-relaxed font-normal">
-            Calcule os tetos referenciais de penalidades e os descontos progressivos 
-            de 20% a 60% por autorregularização voluntária e programa de conformidade fiscal respaldados pelas diretrizes do PLP 108/2024.
+            Calcule os tetos referenciais de penalidades e os descontos
+            progressivos de 20% a 60% por autorregularização voluntária e
+            programa de conformidade fiscal respaldados pelas diretrizes do PLP
+            108/2024.
           </p>
         </div>
       </div>
@@ -95,16 +106,19 @@ export default function SimuladorMultasPage() {
 
       {/* ── GRID PRINCIPAL: INPUTS + RESULTADOS ────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
         {/* COLUNA 1: ENTRADA DE DADOS E SELEÇÃO DE INFRAÇÃO */}
-        <div className={`lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5 ${
-          mobileTab === "inputs" ? "block" : "hidden lg:block"
-        }`}>
+        <div
+          className={`lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5 ${
+            mobileTab === "inputs" ? "block" : "hidden lg:block"
+          }`}
+        >
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0040A8] flex items-center justify-center font-bold">
               1
             </div>
-            <h2 className="text-base font-bold text-slate-900">Dados do Auto de Infração</h2>
+            <h2 className="text-base font-bold text-slate-900">
+              Dados do Auto de Infração
+            </h2>
           </div>
 
           {/* Valor do Tributo Autuado com Steppers Rápidos */}
@@ -113,12 +127,18 @@ export default function SimuladorMultasPage() {
               <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Valor do Tributo Não Recolhido (R$)
               </label>
-              <span className="text-xs font-bold text-[#0040A8]">{formatBRL(tributeValue)}</span>
+              <span className="text-xs font-bold text-[#0040A8]">
+                {formatBRL(tributeValue)}
+              </span>
             </div>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
-                onClick={() => setTributeValueInput(String(Math.max(0, tributeValue - 10000)))}
+                onClick={() =>
+                  setTributeValueInput(
+                    String(Math.max(0, tributeValue - 10000)),
+                  )
+                }
                 className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
                 aria-label="Diminuir R$ 10.000"
               >
@@ -138,7 +158,9 @@ export default function SimuladorMultasPage() {
               </div>
               <button
                 type="button"
-                onClick={() => setTributeValueInput(String(tributeValue + 10000))}
+                onClick={() =>
+                  setTributeValueInput(String(tributeValue + 10000))
+                }
                 className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
                 aria-label="Aumentar R$ 10.000"
               >
@@ -190,7 +212,8 @@ export default function SimuladorMultasPage() {
             {isCapped && (
               <p className="text-[11px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
-                Dosimetria PLP 108/2024: Multa ajustada para o teto referencial de {capRatePct}%.
+                Dosimetria PLP 108/2024: Multa ajustada para o teto referencial
+                de {capRatePct}%.
               </p>
             )}
           </div>
@@ -202,9 +225,24 @@ export default function SimuladorMultasPage() {
             </label>
             <div className="space-y-2">
               {[
-                { id: "standard", label: "Padrão de Ofício", teto: "Máx. 75%", desc: "Infrações fiscais ordinárias sem dolo" },
-                { id: "fraud", label: "Fraude, Sonegação ou Conluio", teto: "Máx. 100%", desc: "Comprovação de má-fé ou dolo manifesto" },
-                { id: "recurrence", label: "Reincidência Comprovada", teto: "Máx. 150%", desc: "Reiteração de infração idêntica em 5 anos" },
+                {
+                  id: "standard",
+                  label: "Padrão de Ofício",
+                  teto: "Máx. 75%",
+                  desc: "Infrações fiscais ordinárias sem dolo",
+                },
+                {
+                  id: "fraud",
+                  label: "Fraude, Sonegação ou Conluio",
+                  teto: "Máx. 100%",
+                  desc: "Comprovação de má-fé ou dolo manifesto",
+                },
+                {
+                  id: "recurrence",
+                  label: "Reincidência Comprovada",
+                  teto: "Máx. 150%",
+                  desc: "Reiteração de infração idêntica em 5 anos",
+                },
               ].map((t) => (
                 <button
                   key={t.id}
@@ -220,9 +258,13 @@ export default function SimuladorMultasPage() {
                     <span className="block font-bold">{t.label}</span>
                     <span className="text-[10px] text-slate-500">{t.desc}</span>
                   </div>
-                  <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                    penaltyType === t.id ? "bg-[#0040A8] text-white" : "bg-slate-200 text-slate-700"
-                  }`}>
+                  <span
+                    className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                      penaltyType === t.id
+                        ? "bg-[#0040A8] text-white"
+                        : "bg-slate-200 text-slate-700"
+                    }`}
+                  >
                     {t.teto}
                   </span>
                 </button>
@@ -237,8 +279,16 @@ export default function SimuladorMultasPage() {
             </label>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { id: "impugnacao", label: "No Prazo de Defesa", desc: "Antes do recurso" },
-                { id: "pre_divida", label: "Pré-Dívida Ativa", desc: "Antes do ajuizamento" },
+                {
+                  id: "impugnacao",
+                  label: "No Prazo de Defesa",
+                  desc: "Antes do recurso",
+                },
+                {
+                  id: "pre_divida",
+                  label: "Pré-Dívida Ativa",
+                  desc: "Antes do ajuizamento",
+                },
               ].map((m) => (
                 <button
                   key={m.id}
@@ -264,8 +314,16 @@ export default function SimuladorMultasPage() {
             </label>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { id: "integral", label: "Pagamento Integral", badge: "Maior Desconto" },
-                { id: "parcelamento", label: "Parcelamento", badge: "Fluxo Suave" },
+                {
+                  id: "integral",
+                  label: "Pagamento Integral",
+                  badge: "Maior Desconto",
+                },
+                {
+                  id: "parcelamento",
+                  label: "Parcelamento",
+                  badge: "Fluxo Suave",
+                },
               ].map((f) => (
                 <button
                   key={f.id}
@@ -301,13 +359,13 @@ export default function SimuladorMultasPage() {
         </div>
 
         {/* COLUNA 2 & 3: CARDS DE RESULTADOS E TABELA PROGRESSIVA */}
-        <div className={`lg:col-span-2 space-y-6 ${
-          mobileTab === "results" ? "block" : "hidden lg:block"
-        }`}>
-          
+        <div
+          className={`lg:col-span-2 space-y-6 ${
+            mobileTab === "results" ? "block" : "hidden lg:block"
+          }`}
+        >
           {/* CARDS EMPILHÁVEIS NO MOBILE (Figma Style) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
             {/* Card Multa Padrão com Desconto Legal */}
             <div className="bg-white rounded-3xl p-6 border border-emerald-200 shadow-sm space-y-3">
               <div className="flex items-center justify-between">
@@ -319,17 +377,26 @@ export default function SimuladorMultasPage() {
                 </span>
               </div>
               <div>
-                <span className="text-xs text-slate-400 font-semibold block">Multa a Pagar</span>
+                <span className="text-xs text-slate-400 font-semibold block">
+                  Multa a Pagar
+                </span>
                 <p className="text-3xl font-black text-slate-900">
                   {formatBRL(result.finalPenalty)}
                 </p>
                 <span className="text-xs text-slate-500 mt-1 block">
-                  Originalmente: <span className="line-through">{formatBRL(result.cappedPenalty)}</span>
+                  Originalmente:{" "}
+                  <span className="line-through">
+                    {formatBRL(result.cappedPenalty)}
+                  </span>
                 </span>
               </div>
               <div className="pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
-                <span className="text-slate-600 font-semibold">Total com Tributo:</span>
-                <span className="text-base font-extrabold text-[#0040A8]">{formatBRL(result.totalDebt)}</span>
+                <span className="text-slate-600 font-semibold">
+                  Total com Tributo:
+                </span>
+                <span className="text-base font-extrabold text-[#0040A8]">
+                  {formatBRL(result.totalDebt)}
+                </span>
               </div>
             </div>
 
@@ -345,17 +412,24 @@ export default function SimuladorMultasPage() {
                 </span>
               </div>
               <div>
-                <span className="text-xs text-purple-400 font-semibold block">Multa com Bônus</span>
+                <span className="text-xs text-purple-400 font-semibold block">
+                  Multa com Bônus
+                </span>
                 <p className="text-3xl font-black text-purple-900">
                   {formatBRL(result.finalPenaltyBonus)}
                 </p>
                 <span className="text-xs text-purple-600 font-semibold mt-1 block">
-                  Economia Extra: +{formatBRL(result.finalPenalty - result.finalPenaltyBonus)}
+                  Economia Extra: +
+                  {formatBRL(result.finalPenalty - result.finalPenaltyBonus)}
                 </span>
               </div>
               <div className="pt-3 border-t border-purple-100 flex justify-between items-center text-xs">
-                <span className="text-purple-800 font-semibold">Total com Tributo (Bônus):</span>
-                <span className="text-base font-extrabold text-purple-900">{formatBRL(result.totalDebtBonus)}</span>
+                <span className="text-purple-800 font-semibold">
+                  Total com Tributo (Bônus):
+                </span>
+                <span className="text-base font-extrabold text-purple-900">
+                  {formatBRL(result.totalDebtBonus)}
+                </span>
               </div>
             </div>
           </div>
@@ -365,10 +439,12 @@ export default function SimuladorMultasPage() {
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
                 <h2 className="text-base font-bold text-slate-900">
-                  Matriz de Descontos e Regularização Voluntária (Diretrizes PLP 108/2024)
+                  Matriz de Descontos e Regularização Voluntária (Diretrizes PLP
+                  108/2024)
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Valores calculados sobre a multa ajustada de {formatBRL(result.cappedPenalty)}.
+                  Valores calculados sobre a multa ajustada de{" "}
+                  {formatBRL(result.cappedPenalty)}.
                 </p>
               </div>
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider hidden sm:inline-block">
@@ -387,27 +463,64 @@ export default function SimuladorMultasPage() {
                 <thead>
                   <tr className="text-slate-400 border-b border-slate-100 font-bold uppercase">
                     <th className="py-2.5 pr-3">Momento & Modalidade</th>
-                    <th className="py-2.5 px-3 text-center text-[#009A44]">Desconto Padrão</th>
-                    <th className="py-2.5 px-3 text-center text-purple-700">Desconto com Bônus</th>
+                    <th className="py-2.5 px-3 text-center text-[#009A44]">
+                      Desconto Padrão
+                    </th>
+                    <th className="py-2.5 px-3 text-center text-purple-700">
+                      Desconto com Bônus
+                    </th>
                     <th className="py-2.5 px-3 text-right">Multa Padrão</th>
-                    <th className="py-2.5 pl-3 text-right text-purple-700 font-extrabold">Multa com Bônus</th>
+                    <th className="py-2.5 pl-3 text-right text-purple-700 font-extrabold">
+                      Multa com Bônus
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
                   {[
-                    { moment: "impugnacao", form: "integral", label: "Prazo de Defesa — Pagamento Integral", std: 50, bonus: 60 },
-                    { moment: "impugnacao", form: "parcelamento", label: "Prazo de Defesa — Parcelamento", std: 40, bonus: 50 },
-                    { moment: "pre_divida", form: "integral", label: "Pré-Dívida Ativa — Pagamento Integral", std: 30, bonus: 40 },
-                    { moment: "pre_divida", form: "parcelamento", label: "Pré-Dívida Ativa — Parcelamento", std: 20, bonus: 30 },
+                    {
+                      moment: "impugnacao",
+                      form: "integral",
+                      label: "Prazo de Defesa — Pagamento Integral",
+                      std: 50,
+                      bonus: 60,
+                    },
+                    {
+                      moment: "impugnacao",
+                      form: "parcelamento",
+                      label: "Prazo de Defesa — Parcelamento",
+                      std: 40,
+                      bonus: 50,
+                    },
+                    {
+                      moment: "pre_divida",
+                      form: "integral",
+                      label: "Pré-Dívida Ativa — Pagamento Integral",
+                      std: 30,
+                      bonus: 40,
+                    },
+                    {
+                      moment: "pre_divida",
+                      form: "parcelamento",
+                      label: "Pré-Dívida Ativa — Parcelamento",
+                      std: 20,
+                      bonus: 30,
+                    },
                   ].map((row, i) => {
-                    const isCurrent = paymentMoment === row.moment && paymentForm === row.form;
+                    const isCurrent =
+                      paymentMoment === row.moment && paymentForm === row.form;
                     return (
                       <tr
                         key={i}
-                        className={isCurrent ? "bg-blue-50/70 font-bold text-[#0040A8]" : "hover:bg-slate-50"}
+                        className={
+                          isCurrent
+                            ? "bg-blue-50/70 font-bold text-[#0040A8]"
+                            : "hover:bg-slate-50"
+                        }
                       >
                         <td className="py-3 pr-3 flex items-center gap-1.5">
-                          {isCurrent && <span className="w-2 h-2 rounded-full bg-[#0040A8]" />}
+                          {isCurrent && (
+                            <span className="w-2 h-2 rounded-full bg-[#0040A8]" />
+                          )}
                           <span>{row.label}</span>
                         </td>
                         <td className="py-3 px-3 text-center text-[#009A44] font-bold">
@@ -417,10 +530,14 @@ export default function SimuladorMultasPage() {
                           {row.bonus}%
                         </td>
                         <td className="py-3 px-3 text-right">
-                          {formatBRL(result.cappedPenalty * (1 - row.std / 100))}
+                          {formatBRL(
+                            result.cappedPenalty * (1 - row.std / 100),
+                          )}
                         </td>
                         <td className="py-3 pl-3 text-right text-purple-800 font-extrabold">
-                          {formatBRL(result.cappedPenalty * (1 - row.bonus / 100))}
+                          {formatBRL(
+                            result.cappedPenalty * (1 - row.bonus / 100),
+                          )}
                         </td>
                       </tr>
                     );
@@ -438,7 +555,9 @@ export default function SimuladorMultasPage() {
                 <span>Prazo Unificado de 20 Dias Úteis</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                (Diretrizes PLP 108/2024) Contagem em dias úteis para todas as impugnações e defesas administrativas de CBS e IBS, alinhando o processo tributário às garantias processuais civis.
+                (Diretrizes PLP 108/2024) Contagem em dias úteis para todas as
+                impugnações e defesas administrativas de CBS e IBS, alinhando o
+                processo tributário às garantias processuais civis.
               </p>
             </div>
 
@@ -448,7 +567,9 @@ export default function SimuladorMultasPage() {
                 <span>Vedação de Garantia e Depósito Prévio</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                (Súmula Vinculante 28 do STF & PLP 108/2024) É inconstitucional exigir depósito recursal, fiança ou caução para recorrer de autuações, garantindo o direito constitucional à ampla defesa.
+                (Súmula Vinculante 28 do STF & PLP 108/2024) É inconstitucional
+                exigir depósito recursal, fiança ou caução para recorrer de
+                autuações, garantindo o direito constitucional à ampla defesa.
               </p>
             </div>
           </div>
@@ -477,7 +598,10 @@ export default function SimuladorMultasPage() {
             Aviso de Isenção de Responsabilidade (Disclaimer):
           </p>
           <p className="leading-relaxed text-slate-600">
-            As alíquotas e valores apresentados são simulações estimativas baseadas nas projeções do Ministério da Fazenda e nos textos dos PLPs 68/2024 e 108/2024. Não substituem consultoria contábil ou jurídica formal.
+            As alíquotas e valores apresentados são simulações estimativas
+            baseadas nas projeções do Ministério da Fazenda e nos textos dos
+            PLPs 68/2024 e 108/2024. Não substituem consultoria contábil ou
+            jurídica formal.
           </p>
         </div>
       </div>
@@ -489,15 +613,30 @@ export default function SimuladorMultasPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Calculadora Didática de Multas Fiscais TRIBUTABR",
+            "@id": "https://tributabr.com.br/simulador-multas/#webapp",
+            name: "Simulador Didático de Multas e Dosimetria Fiscal TRIBUTABR",
+            url: "https://tributabr.com.br/simulador-multas",
+            applicationCategory: "FinanceApplication",
             operatingSystem: "All",
-            applicationCategory: "EducationalApplication",
+            browserRequirements: "Requires JavaScript. Requires HTML5.",
             description:
-              "Simulador pedagógico de dosimetria de multas tributárias e descontos de regularização sob o PLP 108/2024.",
+              "Ferramenta interativa para cálculo de dosimetria de penalidades fiscais de CBS/IBS, tetos de multas e reduções graduais de 20% a 60% segundo as diretrizes do PLP 108/2024 e STF.",
             offers: {
               "@type": "Offer",
               price: "0",
               priceCurrency: "BRL",
+            },
+            featureList: [
+              "Cálculo de tetos referenciais de multas de 75% a 150%",
+              "Simulação de descontos progressivos de 20% a 60% por momento de adesão e forma de pagamento",
+              "Aplicação de bônus de conformidade fiscal para bons pagadores",
+              "Matriz comparativa de pagamento à vista versus parcelado",
+              "Garantias do Processo Administrativo Fiscal e Súmula Vinculante 28 do STF",
+            ],
+            creator: {
+              "@type": "Organization",
+              name: "TRIBUTABR",
+              url: "https://tributabr.com.br",
             },
           }),
         }}

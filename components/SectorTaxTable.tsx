@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Building2, ShoppingCart, Briefcase, HeartPulse, GraduationCap, Utensils, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Building2,
+  ShoppingCart,
+  Briefcase,
+  HeartPulse,
+  GraduationCap,
+  Utensils,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 interface SectorComparison {
   id: string;
@@ -35,19 +45,38 @@ const SECTOR_DATA: SectorComparison[] = [
     oldTaxes: [
       { name: "PIS", rate: "1,65%", mechanism: "Cumulativo/Não-cumulativo" },
       { name: "COFINS", rate: "7,60%", mechanism: "Cumulativo/Não-cumulativo" },
-      { name: "ICMS", rate: "17,0% a 21,0%", mechanism: "Por dentro (incide sobre a própria base)" },
+      {
+        name: "ICMS",
+        rate: "17,0% a 21,0%",
+        mechanism: "Por dentro (incide sobre a própria base)",
+      },
       { name: "IPI", rate: "0%", mechanism: "Geralmente não incide" },
     ],
     oldTotalEstimated: "~26,0% a 30,0%",
-    oldMechanism: "Guerra fiscal entre estados, substituição tributária (ST) complexa e ICMS por dentro.",
+    oldMechanism:
+      "Guerra fiscal entre estados, substituição tributária (ST) complexa e ICMS por dentro.",
     newTaxes: [
-      { name: "CBS (Federal)", rate: "8,80%", mechanism: "Por fora (transparente)" },
-      { name: "IBS (Subnacional)", rate: "17,70%", mechanism: "Por fora (transparente)" },
-      { name: "Imposto Seletivo", rate: "0%", mechanism: "Apenas se vender produtos nocivos" },
+      {
+        name: "CBS (Federal)",
+        rate: "8,80%",
+        mechanism: "Por fora (transparente)",
+      },
+      {
+        name: "IBS (Subnacional)",
+        rate: "17,70%",
+        mechanism: "Por fora (transparente)",
+      },
+      {
+        name: "Imposto Seletivo",
+        rate: "0%",
+        mechanism: "Apenas se vender produtos nocivos",
+      },
     ],
     newTotalEstimated: "~26,50% (alíquota padrão nacional)",
-    newMechanism: "Não-cumulatividade plena com crédito financeiro imediato de todas as aquisições.",
-    impactHighlight: "Fim da substituição tributária (ST) e crédito imediato sobre bens de uso e consumo.",
+    newMechanism:
+      "Não-cumulatividade plena com crédito financeiro imediato de todas as aquisições.",
+    impactHighlight:
+      "Fim da substituição tributária (ST) e crédito imediato sobre bens de uso e consumo.",
     impactType: "positivo",
   },
   {
@@ -58,19 +87,42 @@ const SECTOR_DATA: SectorComparison[] = [
     oldTaxes: [
       { name: "PIS", rate: "1,65%", mechanism: "Em cascata sobre insumos" },
       { name: "COFINS", rate: "7,60%", mechanism: "Em cascata sobre insumos" },
-      { name: "IPI", rate: "5,0% a 35,0%", mechanism: "Federal, alíquotas díspares" },
-      { name: "ICMS", rate: "12,0% a 18,0%", mechanism: "Por dentro com restrição a créditos" },
+      {
+        name: "IPI",
+        rate: "5,0% a 35,0%",
+        mechanism: "Federal, alíquotas díspares",
+      },
+      {
+        name: "ICMS",
+        rate: "12,0% a 18,0%",
+        mechanism: "Por dentro com restrição a créditos",
+      },
     ],
     oldTotalEstimated: "~30,0% a 38,0%",
-    oldMechanism: "Acúmulo crônico de créditos tributários não ressarcidos e resíduo tributário nas exportações.",
+    oldMechanism:
+      "Acúmulo crônico de créditos tributários não ressarcidos e resíduo tributário nas exportações.",
     newTaxes: [
-      { name: "CBS (Federal)", rate: "8,80%", mechanism: "Por fora, crédito irrestrito" },
-      { name: "IBS (Subnacional)", rate: "17,70%", mechanism: "Por fora, crédito irrestrito" },
-      { name: "IPI", rate: "0%", mechanism: "Reduzido a zero (exceto concorrência com ZFM)" },
+      {
+        name: "CBS (Federal)",
+        rate: "8,80%",
+        mechanism: "Por fora, crédito irrestrito",
+      },
+      {
+        name: "IBS (Subnacional)",
+        rate: "17,70%",
+        mechanism: "Por fora, crédito irrestrito",
+      },
+      {
+        name: "IPI",
+        rate: "0%",
+        mechanism: "Reduzido a zero (exceto concorrência com ZFM)",
+      },
     ],
     newTotalEstimated: "~26,50%",
-    newMechanism: "Desoneração integral de investimentos e exportações com devolução ágil de saldos credores.",
-    impactHighlight: "Grande redução de custo de capital; maquinários geram crédito imediato de 100%.",
+    newMechanism:
+      "Desoneração integral de investimentos e exportações com devolução ágil de saldos credores.",
+    impactHighlight:
+      "Grande redução de custo de capital; maquinários geram crédito imediato de 100%.",
     impactType: "positivo",
   },
   {
@@ -80,19 +132,42 @@ const SECTOR_DATA: SectorComparison[] = [
     category: "serviços",
     oldTaxes: [
       { name: "PIS", rate: "0,65% ou 1,65%", mechanism: "Cumulativo ou não" },
-      { name: "COFINS", rate: "3,00% ou 7,60%", mechanism: "Cumulativo ou não" },
-      { name: "ISS", rate: "2,0% a 5,0%", mechanism: "Municipal puro (sem crédito)" },
-      { name: "ICMS", rate: "0%", mechanism: "Não incide (exceto transporte/comunicação)" },
+      {
+        name: "COFINS",
+        rate: "3,00% ou 7,60%",
+        mechanism: "Cumulativo ou não",
+      },
+      {
+        name: "ISS",
+        rate: "2,0% a 5,0%",
+        mechanism: "Municipal puro (sem crédito)",
+      },
+      {
+        name: "ICMS",
+        rate: "0%",
+        mechanism: "Não incide (exceto transporte/comunicação)",
+      },
     ],
     oldTotalEstimated: "~8,65% a 14,25%",
-    oldMechanism: "Folha de pagamento alta sem gerar créditos tributários no sistema antigo.",
+    oldMechanism:
+      "Folha de pagamento alta sem gerar créditos tributários no sistema antigo.",
     newTaxes: [
-      { name: "CBS (Federal)", rate: "8,80%", mechanism: "Alíquota de referência" },
-      { name: "IBS (Subnacional)", rate: "17,70%", mechanism: "Alíquota de referência" },
+      {
+        name: "CBS (Federal)",
+        rate: "8,80%",
+        mechanism: "Alíquota de referência",
+      },
+      {
+        name: "IBS (Subnacional)",
+        rate: "17,70%",
+        mechanism: "Alíquota de referência",
+      },
     ],
     newTotalEstimated: "~26,50% (alíquota cheia)",
-    newMechanism: "Clientes B2B tomam crédito integral dos serviços contratados, reduzindo o impacto final.",
-    impactHighlight: "Aumento de alíquota nominal em serviços diretos ao consumidor (B2C), compensado por crédito pleno no B2B.",
+    newMechanism:
+      "Clientes B2B tomam crédito integral dos serviços contratados, reduzindo o impacto final.",
+    impactHighlight:
+      "Aumento de alíquota nominal em serviços diretos ao consumidor (B2C), compensado por crédito pleno no B2B.",
     impactType: "atencao",
   },
   {
@@ -101,19 +176,37 @@ const SECTOR_DATA: SectorComparison[] = [
     icon: <HeartPulse className="w-4 h-4 text-red-500" />,
     category: "especial",
     oldTaxes: [
-      { name: "PIS/COFINS", rate: "3,65% a 9,25%", mechanism: "Com isenções pontuais complexas" },
+      {
+        name: "PIS/COFINS",
+        rate: "3,65% a 9,25%",
+        mechanism: "Com isenções pontuais complexas",
+      },
       { name: "ISS", rate: "2,0% a 5,0%", mechanism: "Municipal" },
-      { name: "ICMS", rate: "0% a 18,0%", mechanism: "Convênios CONFAZ fragmentados" },
+      {
+        name: "ICMS",
+        rate: "0% a 18,0%",
+        mechanism: "Convênios CONFAZ fragmentados",
+      },
     ],
     oldTotalEstimated: "~12,0% a 22,0%",
     oldMechanism: "Judicialização excessiva sobre insumos hospitalares.",
     newTaxes: [
-      { name: "CBS Reduzida", rate: "3,52%", mechanism: "Redução constitucional de 60%" },
-      { name: "IBS Reduzido", rate: "7,08%", mechanism: "Redução constitucional de 60%" },
+      {
+        name: "CBS Reduzida",
+        rate: "3,52%",
+        mechanism: "Redução constitucional de 60%",
+      },
+      {
+        name: "IBS Reduzido",
+        rate: "7,08%",
+        mechanism: "Redução constitucional de 60%",
+      },
     ],
     newTotalEstimated: "~10,60% (Regime Diferenciado)",
-    newMechanism: "Benefício direto com redução de 60% nas alíquotas gerais e alíquota zero para medicamentos essenciais.",
-    impactHighlight: "Medicamentos de alta complexidade e serviços essenciais contam com alíquota zero ou redução de 60%.",
+    newMechanism:
+      "Benefício direto com redução de 60% nas alíquotas gerais e alíquota zero para medicamentos essenciais.",
+    impactHighlight:
+      "Medicamentos de alta complexidade e serviços essenciais contam com alíquota zero ou redução de 60%.",
     impactType: "positivo",
   },
   {
@@ -122,18 +215,33 @@ const SECTOR_DATA: SectorComparison[] = [
     icon: <GraduationCap className="w-4 h-4 text-indigo-500" />,
     category: "especial",
     oldTaxes: [
-      { name: "PIS/COFINS", rate: "3,65% a 9,25%", mechanism: "Regime cumulativo ou lucro real" },
+      {
+        name: "PIS/COFINS",
+        rate: "3,65% a 9,25%",
+        mechanism: "Regime cumulativo ou lucro real",
+      },
       { name: "ISS", rate: "2,0% a 5,0%", mechanism: "Municipal" },
     ],
     oldTotalEstimated: "~5,65% a 14,25%",
-    oldMechanism: "Tributação sobre mensalidades sem aproveitamento de insumos pedagógicos.",
+    oldMechanism:
+      "Tributação sobre mensalidades sem aproveitamento de insumos pedagógicos.",
     newTaxes: [
-      { name: "CBS Reduzida", rate: "3,52%", mechanism: "Redução constitucional de 60%" },
-      { name: "IBS Reduzido", rate: "7,08%", mechanism: "Redução constitucional de 60%" },
+      {
+        name: "CBS Reduzida",
+        rate: "3,52%",
+        mechanism: "Redução constitucional de 60%",
+      },
+      {
+        name: "IBS Reduzido",
+        rate: "7,08%",
+        mechanism: "Redução constitucional de 60%",
+      },
     ],
     newTotalEstimated: "~10,60% (Regime Diferenciado)",
-    newMechanism: "Educação infantil, fundamental, média, técnica e superior enquadradas na redução de 60%.",
-    impactHighlight: "Preservação da acessibilidade educacional e redução de custos em materiais didáticos com crédito pleno.",
+    newMechanism:
+      "Educação infantil, fundamental, média, técnica e superior enquadradas na redução de 60%.",
+    impactHighlight:
+      "Preservação da acessibilidade educacional e redução de custos em materiais didáticos com crédito pleno.",
     impactType: "neutro",
   },
   {
@@ -142,18 +250,37 @@ const SECTOR_DATA: SectorComparison[] = [
     icon: <Utensils className="w-4 h-4 text-emerald-600" />,
     category: "especial",
     oldTaxes: [
-      { name: "PIS/COFINS", rate: "Variável", mechanism: "Múltiplos decretos e isenções parciais" },
-      { name: "ICMS", rate: "0% a 18,0%", mechanism: "Cada estado com lista própria de cesta básica" },
+      {
+        name: "PIS/COFINS",
+        rate: "Variável",
+        mechanism: "Múltiplos decretos e isenções parciais",
+      },
+      {
+        name: "ICMS",
+        rate: "0% a 18,0%",
+        mechanism: "Cada estado com lista própria de cesta básica",
+      },
     ],
     oldTotalEstimated: "~7,0% a 18,0%",
-    oldMechanism: "Guerra fiscal entre estados com definições contraditórias de alimentos essenciais.",
+    oldMechanism:
+      "Guerra fiscal entre estados com definições contraditórias de alimentos essenciais.",
     newTaxes: [
-      { name: "CBS Cesta Básica", rate: "0,00%", mechanism: "Alíquota ZERO Constitucional" },
-      { name: "IBS Cesta Básica", rate: "0,00%", mechanism: "Alíquota ZERO Constitucional" },
+      {
+        name: "CBS Cesta Básica",
+        rate: "0,00%",
+        mechanism: "Alíquota ZERO Constitucional",
+      },
+      {
+        name: "IBS Cesta Básica",
+        rate: "0,00%",
+        mechanism: "Alíquota ZERO Constitucional",
+      },
     ],
     newTotalEstimated: "0,00% (Isenção Total)",
-    newMechanism: "Cesta Básica Nacional de Alimentos com isenção de 100% de CBS e IBS em todo o território.",
-    impactHighlight: "Alimentos indispensáveis terão imposto zero absoluto, acompanhado de mecanismo de Cashback para famílias de baixa renda.",
+    newMechanism:
+      "Cesta Básica Nacional de Alimentos com isenção de 100% de CBS e IBS em todo o território.",
+    impactHighlight:
+      "Alimentos indispensáveis terão imposto zero absoluto, acompanhado de mecanismo de Cashback para famílias de baixa renda.",
     impactType: "positivo",
   },
   {
@@ -162,26 +289,50 @@ const SECTOR_DATA: SectorComparison[] = [
     icon: <Sparkles className="w-4 h-4 text-amber-600" />,
     category: "especial",
     oldTaxes: [
-      { name: "PIS/COFINS", rate: "0% a 9,25%", mechanism: "Isenções e regimes especiais fragmentados" },
-      { name: "ICMS", rate: "0% a 12,0%", mechanism: "Diferimento interestadual e convênios CONFAZ" },
-      { name: "Funrural", rate: "1,50%", mechanism: "Contribuição previdenciária sobre receita bruta" },
+      {
+        name: "PIS/COFINS",
+        rate: "0% a 9,25%",
+        mechanism: "Isenções e regimes especiais fragmentados",
+      },
+      {
+        name: "ICMS",
+        rate: "0% a 12,0%",
+        mechanism: "Diferimento interestadual e convênios CONFAZ",
+      },
+      {
+        name: "Funrural",
+        rate: "1,50%",
+        mechanism: "Contribuição previdenciária sobre receita bruta",
+      },
     ],
     oldTotalEstimated: "~4,0% a 10,0%",
-    oldMechanism: "Acúmulo de créditos de ICMS e PIS/Cofins em insumos com enorme dificuldade de monetização.",
+    oldMechanism:
+      "Acúmulo de créditos de ICMS e PIS/Cofins em insumos com enorme dificuldade de monetização.",
     newTaxes: [
-      { name: "CBS Agro (Reduzida)", rate: "3,52%", mechanism: "Redução de 60% para insumos agropecuários" },
-      { name: "IBS Agro (Reduzido)", rate: "7,08%", mechanism: "Redução de 60% para insumos agropecuários" },
+      {
+        name: "CBS Agro (Reduzida)",
+        rate: "3,52%",
+        mechanism: "Redução de 60% para insumos agropecuários",
+      },
+      {
+        name: "IBS Agro (Reduzido)",
+        rate: "7,08%",
+        mechanism: "Redução de 60% para insumos agropecuários",
+      },
     ],
     newTotalEstimated: "~10,60% (ou 0% para itens de cesta básica)",
-    newMechanism: "Não-cumulatividade plena com monetização ágil de créditos e crédito presumido para adquirentes do produtor rural pessoa física.",
-    impactHighlight: "Produtores com receita até R$ 3,6 milhões podem optar por não recolher CBS/IBS, transferindo crédito presumido à agroindústria.",
+    newMechanism:
+      "Não-cumulatividade plena com monetização ágil de créditos e crédito presumido para adquirentes do produtor rural pessoa física.",
+    impactHighlight:
+      "Produtores com receita até R$ 3,6 milhões podem optar por não recolher CBS/IBS, transferindo crédito presumido à agroindústria.",
     impactType: "positivo",
   },
 ];
 
 export default function SectorTaxTable() {
   const [selectedId, setSelectedId] = useState<string>("comercio");
-  const selectedSector = SECTOR_DATA.find((s) => s.id === selectedId) || SECTOR_DATA[0];
+  const selectedSector =
+    SECTOR_DATA.find((s) => s.id === selectedId) || SECTOR_DATA[0];
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8">
@@ -195,7 +346,8 @@ export default function SectorTaxTable() {
             Modelo Antigo vs. Novo IVA Dual por Setor
           </h3>
           <p className="text-sm text-slate-600 mt-1">
-            Selecione o segmento para conferir a transição de alíquotas, créditos e regras operacionais.
+            Selecione o segmento para conferir a transição de alíquotas,
+            créditos e regras operacionais.
           </p>
         </div>
       </div>
@@ -204,7 +356,10 @@ export default function SectorTaxTable() {
       <div className="mb-6 space-y-3">
         {/* Dropdown acessível para mobile */}
         <div className="block sm:hidden">
-          <label htmlFor="sector-select" className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+          <label
+            htmlFor="sector-select"
+            className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5"
+          >
             Escolha o Setor Econômico:
           </label>
           <div className="relative">
@@ -250,13 +405,14 @@ export default function SectorTaxTable() {
 
       {/* Painel Comparativo do Setor Selecionado */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
-        
         {/* COLUNA ESQUERDA: SISTEMA ANTIGO */}
         <div className="bg-gradient-to-br from-red-50/50 to-orange-50/30 rounded-2xl p-5 border border-red-200/80">
           <div className="flex items-center justify-between pb-3 border-b border-red-200">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <h4 className="text-base font-bold text-red-950">Sistema Antigo (Como Era)</h4>
+              <h4 className="text-base font-bold text-red-950">
+                Sistema Tributário Anterior
+              </h4>
             </div>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 border border-red-200">
               5 Impostos Fragmentados
@@ -268,10 +424,17 @@ export default function SectorTaxTable() {
             {/* Mobile: cartões empilhados */}
             <div className="block sm:hidden space-y-2">
               {selectedSector.oldTaxes.map((tax, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/90 border border-red-200/80 flex items-center justify-between gap-3 text-xs">
+                <div
+                  key={i}
+                  className="p-3 rounded-xl bg-white/90 border border-red-200/80 flex items-center justify-between gap-3 text-xs"
+                >
                   <div className="min-w-0 flex-1">
-                    <span className="font-bold text-slate-800 block">{tax.name}</span>
-                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{tax.mechanism}</span>
+                    <span className="font-bold text-slate-800 block">
+                      {tax.name}
+                    </span>
+                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">
+                      {tax.mechanism}
+                    </span>
                   </div>
                   <span className="font-extrabold text-red-700 bg-red-50 px-2.5 py-1 rounded-lg border border-red-100 flex-shrink-0 text-right">
                     {tax.rate}
@@ -293,9 +456,13 @@ export default function SectorTaxTable() {
                 <tbody className="divide-y divide-red-200/40 font-medium">
                   {selectedSector.oldTaxes.map((tax, i) => (
                     <tr key={i}>
-                      <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
+                      <td className="py-2 pr-2 font-bold text-slate-800">
+                        {tax.name}
+                      </td>
                       <td className="py-2 px-2 text-red-700">{tax.rate}</td>
-                      <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+                      <td className="py-2 pl-2 text-slate-600">
+                        {tax.mechanism}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -306,7 +473,9 @@ export default function SectorTaxTable() {
           <div className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-red-200 space-y-1 text-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-700">Carga Nominal Estimada:</span>
-              <span className="text-red-700 text-sm">{selectedSector.oldTotalEstimated}</span>
+              <span className="text-red-700 text-sm">
+                {selectedSector.oldTotalEstimated}
+              </span>
             </div>
             <p className="text-slate-600 leading-relaxed pt-1">
               <strong>Característica:</strong> {selectedSector.oldMechanism}
@@ -319,7 +488,9 @@ export default function SectorTaxTable() {
           <div className="flex items-center justify-between pb-3 border-b border-emerald-200">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#009A44]"></div>
-              <h4 className="text-base font-bold text-emerald-950">Novo IVA Dual (Como Fica)</h4>
+              <h4 className="text-base font-bold text-emerald-950">
+                Novo IVA Dual (Como Fica)
+              </h4>
             </div>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-100 text-[#009A44] border border-emerald-200">
               CBS + IBS Não-Cumulativos
@@ -331,10 +502,17 @@ export default function SectorTaxTable() {
             {/* Mobile: cartões empilhados */}
             <div className="block sm:hidden space-y-2">
               {selectedSector.newTaxes.map((tax, i) => (
-                <div key={i} className="p-3 rounded-xl bg-white/90 border border-emerald-200/80 flex items-center justify-between gap-3 text-xs">
+                <div
+                  key={i}
+                  className="p-3 rounded-xl bg-white/90 border border-emerald-200/80 flex items-center justify-between gap-3 text-xs"
+                >
                   <div className="min-w-0 flex-1">
-                    <span className="font-bold text-slate-800 block">{tax.name}</span>
-                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{tax.mechanism}</span>
+                    <span className="font-bold text-slate-800 block">
+                      {tax.name}
+                    </span>
+                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">
+                      {tax.mechanism}
+                    </span>
                   </div>
                   <span className="font-extrabold text-[#009A44] bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 flex-shrink-0 text-right">
                     {tax.rate}
@@ -349,16 +527,26 @@ export default function SectorTaxTable() {
                 <thead>
                   <tr className="text-slate-500 border-b border-emerald-200/60">
                     <th className="py-2 pr-2 font-semibold">Novo Tributo</th>
-                    <th className="py-2 px-2 font-semibold">Alíquota Projetada</th>
-                    <th className="py-2 pl-2 font-semibold">Regra de Crédito</th>
+                    <th className="py-2 px-2 font-semibold">
+                      Alíquota Projetada
+                    </th>
+                    <th className="py-2 pl-2 font-semibold">
+                      Regra de Crédito
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-200/40 font-medium">
                   {selectedSector.newTaxes.map((tax, i) => (
                     <tr key={i}>
-                      <td className="py-2 pr-2 font-bold text-slate-800">{tax.name}</td>
-                      <td className="py-2 px-2 text-[#009A44] font-bold">{tax.rate}</td>
-                      <td className="py-2 pl-2 text-slate-600">{tax.mechanism}</td>
+                      <td className="py-2 pr-2 font-bold text-slate-800">
+                        {tax.name}
+                      </td>
+                      <td className="py-2 px-2 text-[#009A44] font-bold">
+                        {tax.rate}
+                      </td>
+                      <td className="py-2 pl-2 text-slate-600">
+                        {tax.mechanism}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -369,13 +557,17 @@ export default function SectorTaxTable() {
           <div className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-emerald-200 space-y-1.5 text-xs">
             <div className="flex justify-between items-center font-bold">
               <span className="text-slate-700">Alíquota Padrão Estimada:</span>
-              <span className="text-[#009A44] text-sm">{selectedSector.newTotalEstimated}</span>
+              <span className="text-[#009A44] text-sm">
+                {selectedSector.newTotalEstimated}
+              </span>
             </div>
             <p className="text-slate-600 leading-relaxed">
               <strong>Característica:</strong> {selectedSector.newMechanism}
             </p>
             <p className="text-[10px] text-slate-500 italic pt-1 border-t border-emerald-100">
-              * Projeção baseada nos estudos do Ministério da Fazenda (PLP 68/2024). Alíquota de referência sujeita à regulamentação final pelo Senado Federal.
+              * Projeção baseada nos estudos do Ministério da Fazenda (PLP
+              68/2024). Alíquota de referência sujeita à regulamentação final
+              pelo Senado Federal.
             </p>
           </div>
         </div>
@@ -390,7 +582,11 @@ export default function SectorTaxTable() {
           </p>
         </div>
         <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider bg-[#0040A8] text-white whitespace-nowrap self-start sm:self-auto flex-shrink-0">
-          {selectedSector.impactType === "positivo" ? "Fator Positivo" : selectedSector.impactType === "atencao" ? "Ajuste Contábil" : "Equilibrado"}
+          {selectedSector.impactType === "positivo"
+            ? "Fator Positivo"
+            : selectedSector.impactType === "atencao"
+              ? "Ajuste Contábil"
+              : "Equilibrado"}
         </span>
       </div>
     </div>

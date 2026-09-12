@@ -150,15 +150,15 @@ export default function GuiaPage() {
                   </div>
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-red-600">
-                      Sistema Caótico
+                      Cenário Anterior
                     </span>
                     <h3 className="text-xl font-black text-slate-900">
-                      Como Era (Até 2025)
+                      Diagnóstico do Sistema Tributário Anterior (Até 2025)
                     </h3>
                   </div>
                 </div>
                 <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-200">
-                  5 Tributos
+                  5 Tributos Extintos
                 </span>
               </div>
 
@@ -351,7 +351,8 @@ export default function GuiaPage() {
                 Calculadora Didática de IVA Dual (CBS + IBS)
               </h3>
               <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                Insira faturamento e insumos para simular cenários pedagógicos de transição ano a ano com gráfico dinâmico em Recharts.
+                Insira faturamento e insumos para simular cenários pedagógicos
+                de transição ano a ano com gráfico dinâmico em Recharts.
               </p>
             </div>
             <div className="flex items-center gap-2 text-sm font-bold text-[#0040A8] mt-6">
@@ -390,92 +391,113 @@ export default function GuiaPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Calculadora Didática IVA Dual TRIBUTABR",
-            operatingSystem: "All",
-            applicationCategory: "EducationalApplication",
-            description:
-              "Simulador pedagógico de impactos da Reforma Tributária (CBS e IBS) baseado no PLP 68/2024.",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "BRL",
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline:
-              "Guia da Nova Reforma Tributária Brasileira (EC 132/2023 e PLP 68/2024)",
-            description:
-              "Guia didático e comparativo sobre o novo IVA Dual (CBS e IBS), Imposto Seletivo, regras de transição de 2026 a 2033 e tabelas setoriais.",
-            author: {
-              "@type": "Organization",
-              name: "Equipe Editorial TRIBUTABR",
-              url: "https://tributabr.com.br",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "TRIBUTABR",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://tributabr.com.br/logo.png",
-              },
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": "https://tributabr.com.br/guia",
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
+            "@graph": [
               {
-                "@type": "Question",
-                name: "O que é o IVA Dual na Reforma Tributária?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text:
-                    "O IVA Dual é o modelo instituído pela EC nº 132/2023 que unifica cinco tributos antigos (PIS, Cofins, IPI, ICMS e ISS) em dois impostos sobre o consumo: a CBS (federal) e o IBS (estados e municípios).",
+                "@type": "WebSite",
+                "@id": "https://tributabr.com.br/#website",
+                url: "https://tributabr.com.br",
+                name: "TRIBUTABR",
+                description:
+                  "Plataforma independente e educativa sobre a Nova Reforma Tributária Brasileira (EC 132/2023, PLP 68/2024 e PLP 108/2024).",
+                publisher: {
+                  "@id": "https://tributabr.com.br/#organization",
+                },
+                inLanguage: "pt-BR",
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://tributabr.com.br/#organization",
+                name: "TRIBUTABR",
+                url: "https://tributabr.com.br",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://tributabr.com.br/logo.png",
+                },
+                sameAs: [],
+              },
+              {
+                "@type": "WebApplication",
+                "@id": "https://tributabr.com.br/#calculator-iva",
+                name: "Calculadora IVA Dual TRIBUTABR (CBS e IBS)",
+                url: "https://tributabr.com.br/simulador-iva",
+                operatingSystem: "All",
+                applicationCategory: "BusinessApplication",
+                description:
+                  "Simulador didático de transição tributária, cálculo de créditos sobre insumos e impactos de alíquotas do IVA Dual segundo o PLP 68/2024.",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "BRL",
                 },
               },
               {
-                "@type": "Question",
-                name: "Como funciona o período de transição da Reforma Tributária (2026–2033)?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text:
-                    "A transição inicia-se em 2026 com alíquota-teste de 0,9% para CBS e 0,1% para IBS. Em 2027 a CBS entra em vigor pleno, extinguindo PIS e Cofins. De 2029 a 2032 o ICMS e ISS são reduzidos gradualmente à razão de 1/10 ao ano enquanto o IBS assume a arrecadação, atingindo o regime integral em 2033.",
+                "@type": "WebApplication",
+                "@id": "https://tributabr.com.br/#calculator-multas",
+                name: "Simulador de Multas e Dosimetria TRIBUTABR",
+                url: "https://tributabr.com.br/simulador-multas",
+                operatingSystem: "All",
+                applicationCategory: "BusinessApplication",
+                description:
+                  "Calculadora didática de penalidades fiscais com tetos referenciais e descontos graduais de 20% a 60% segundo as diretrizes do PLP 108/2024.",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "BRL",
                 },
               },
               {
-                "@type": "Question",
-                name: "O que é a não-cumulatividade plena do novo IVA?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text:
-                    "Com o IVA Dual, todo tributo cobrado na aquisição de insumos, bens e serviços pela empresa vira crédito financeiro imediato, eliminando o efeito cascata e garantindo imposto calculado 'por fora' apenas sobre o valor adicionado.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Quais setores contam com alíquota reduzida no PLP 68/2024?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text:
-                    "O PLP 68/2024 prevê redução de 60% da alíquota padrão (pagando apenas 40%) para serviços de saúde, educação, medicamentos, transporte coletivo e produtos agropecuários, além de alíquota zero para itens da Cesta Básica Nacional.",
-                },
+                "@type": "FAQPage",
+                "@id": "https://tributabr.com.br/#faq",
+                mainEntity: [
+                  {
+                    "@type": "Question",
+                    name: "O que é o IVA Dual na Reforma Tributária?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "O IVA Dual é o modelo instituído pela EC nº 132/2023 que unifica cinco tributos antigos (PIS, Cofins, IPI, ICMS e ISS) em dois impostos sobre o consumo: a CBS (Contribuição sobre Bens e Serviços, de competência federal) e o IBS (Imposto sobre Bens e Serviços, compartilhado por estados e municípios).",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Como funciona o período de transição da Reforma Tributária (2026–2033)?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "A transição inicia-se em 2026 com alíquota-teste de 0,9% para CBS e 0,1% para IBS. Em 2027 a CBS entra em vigor pleno, extinguindo PIS e Cofins. De 2029 a 2032 o ICMS e o ISS são reduzidos gradualmente à razão de 1/10 ao ano enquanto o IBS assume a arrecadação, atingindo o regime integral em 2033.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "O que é a não-cumulatividade plena do novo IVA?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Com o IVA Dual, todo tributo cobrado na aquisição de insumos, bens e serviços pela empresa vira crédito financeiro imediato, eliminando o efeito cascata e garantindo imposto calculado 'por fora' apenas sobre o valor adicionado.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Quais setores contam com alíquota reduzida no PLP 68/2024?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "O PLP 68/2024 prevê redução de 60% da alíquota padrão (pagando apenas 40%) para serviços de saúde, educação, medicamentos, transporte coletivo e produtos agropecuários, além de alíquota zero para itens essenciais da Cesta Básica Nacional.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "O que muda no Processo Administrativo Fiscal com o PLP 108/2024?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "O PLP 108/2024 estabelece a padronização de prazos processuais em dias úteis (20 dias úteis para recursos), reafirma a vedação de exigência de caução ou depósito prévio respaldada pela Súmula Vinculante 28 do STF, e introduz regras de dosimetria proporcional com descontos progressivos de 20% a 60% para autorregularização voluntária e bons pagadores.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Como o princípio do destino encerra a guerra fiscal?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "No sistema anterior (ICMS), o imposto ficava majoritariamente com o estado produtor (origem), incentivando concessões unilaterais de benefícios fiscais. Com o IBS, o tributo arrecadado pertence integralmente ao município e estado onde a mercadoria ou serviço é consumido (destino), extinguindo disputas fiscais entre entes federativos.",
+                    },
+                  },
+                ],
               },
             ],
           }),

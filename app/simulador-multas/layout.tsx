@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Calculadora de Multas Fiscais (PLP 108/2024) — Dosimetria e Descontos | TRIBUTABR",
+  alternates: {
+    canonical: "/simulador-multas",
+  },
+  title:
+    "Calculadora de Multas Fiscais (PLP 108/2024) — Dosimetria e Descontos | TRIBUTABR",
   description:
     "Calcule os tetos e reduções de 20% a 60% em multas fiscais de CBS/IBS segundo as diretrizes do PLP 108/2024 e a jurisprudência do STF.",
   keywords: [
@@ -14,7 +18,8 @@ export const metadata: Metadata = {
     "TRIBUTABR",
   ],
   openGraph: {
-    title: "Calculadora de Multas Fiscais (PLP 108/2024) — Dosimetria e Descontos | TRIBUTABR",
+    title:
+      "Calculadora de Multas Fiscais (PLP 108/2024) — Dosimetria e Descontos | TRIBUTABR",
     description:
       "Calcule os tetos e reduções de 20% a 60% em multas fiscais de CBS/IBS segundo as diretrizes do PLP 108/2024 e a jurisprudência do STF.",
     url: "https://tributabr.com.br/simulador-multas",

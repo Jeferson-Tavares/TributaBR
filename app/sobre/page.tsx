@@ -262,7 +262,7 @@ export default function SobreNosPage() {
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
                   Seu Nome *
                 </label>
-                  <input
+                <input
                   type="text"
                   required
                   value={formData.nome}
@@ -361,6 +361,34 @@ export default function SobreNosPage() {
           </form>
         )}
       </div>
+
+      {/* JSON-LD Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "@id": "https://tributabr.com.br/sobre/#about",
+            name: "Sobre o Projeto TRIBUTABR",
+            url: "https://tributabr.com.br/sobre",
+            description:
+              "Informações institucionais, missão editorial independente e canais de contato da plataforma TRIBUTABR sobre a Reforma Tributária.",
+            mainEntity: {
+              "@type": "Organization",
+              name: "TRIBUTABR",
+              url: "https://tributabr.com.br",
+              logo: "https://tributabr.com.br/logo.png",
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer support",
+                email: "contato@tributabr.com.br",
+                availableLanguage: ["Portuguese"],
+              },
+            },
+          }),
+        }}
+      />
     </div>
   );
 }

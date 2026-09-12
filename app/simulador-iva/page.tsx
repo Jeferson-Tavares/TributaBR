@@ -121,27 +121,66 @@ export default function SimuladorIvaPage() {
   // Cálculos dinâmicos com regime tributário e alíquota personalizada
   const oldResult = useMemo(
     () => calcOldSystem(salePrice, sector, regime),
-    [salePrice, sector, regime]
+    [salePrice, sector, regime],
   );
-  
+
   const newResult = useMemo(
-    () => calcNewSystem(salePrice, purchaseValue, sector, 2033, hasIS, isRate, customIvaRate, regime),
-    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime]
+    () =>
+      calcNewSystem(
+        salePrice,
+        purchaseValue,
+        sector,
+        2033,
+        hasIS,
+        isRate,
+        customIvaRate,
+        regime,
+      ),
+    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime],
   );
 
   const transitionResult = useMemo(
-    () => calcTransitionYear(salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate, regime),
-    [salePrice, purchaseValue, sector, selectedYear, hasIS, isRate, customIvaRate, regime]
+    () =>
+      calcTransitionYear(
+        salePrice,
+        purchaseValue,
+        sector,
+        selectedYear,
+        hasIS,
+        isRate,
+        customIvaRate,
+        regime,
+      ),
+    [
+      salePrice,
+      purchaseValue,
+      sector,
+      selectedYear,
+      hasIS,
+      isRate,
+      customIvaRate,
+      regime,
+    ],
   );
 
   const chartData = useMemo(
-    () => generateChartData(salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime),
-    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime]
+    () =>
+      generateChartData(
+        salePrice,
+        purchaseValue,
+        sector,
+        hasIS,
+        isRate,
+        customIvaRate,
+        regime,
+      ),
+    [salePrice, purchaseValue, sector, hasIS, isRate, customIvaRate, regime],
   );
 
   // Variação em relação ao sistema antigo
   const diff = transitionResult.totalTax - oldResult.totalTax;
-  const diffPct = oldResult.totalTax > 0 ? (diff / oldResult.totalTax) * 100 : 0;
+  const diffPct =
+    oldResult.totalTax > 0 ? (diff / oldResult.totalTax) * 100 : 0;
   const isSavings = diff <= 0;
 
   const currentSchedule =
@@ -151,9 +190,10 @@ export default function SimuladorIvaPage() {
   // Proporções exatas de CBS e IBS para a alíquota em vigor
   const cbsRatio = 8.8 / 26.5;
   const ibsRatio = 17.7 / 26.5;
-  const sectorFactor = rates.cbsFull === 0 ? 0 : (rates.cbsFull < 8.8 ? 0.4 : 1.0);
-  const effectiveCbsRate = (customIvaRate * cbsRatio * sectorFactor);
-  const effectiveIbsRate = (customIvaRate * ibsRatio * sectorFactor);
+  const sectorFactor =
+    rates.cbsFull === 0 ? 0 : rates.cbsFull < 8.8 ? 0.4 : 1.0;
+  const effectiveCbsRate = customIvaRate * cbsRatio * sectorFactor;
+  const effectiveIbsRate = customIvaRate * ibsRatio * sectorFactor;
   const effectiveTotalRate = effectiveCbsRate + effectiveIbsRate;
 
   // Tooltip customizado Recharts
@@ -166,7 +206,10 @@ export default function SimuladorIvaPage() {
         </p>
         <div className="space-y-1">
           {payload.map((entry: any) => (
-            <div key={entry.name} className="flex items-center justify-between gap-4">
+            <div
+              key={entry.name}
+              className="flex items-center justify-between gap-4"
+            >
               <span className="flex items-center gap-1.5 text-slate-600">
                 <span
                   className="w-2.5 h-2.5 rounded-sm inline-block"
@@ -174,13 +217,19 @@ export default function SimuladorIvaPage() {
                 />
                 {entry.name}
               </span>
-              <span className="font-bold text-slate-800">{formatBRL(entry.value)}</span>
+              <span className="font-bold text-slate-800">
+                {formatBRL(entry.value)}
+              </span>
             </div>
           ))}
         </div>
         <div className="mt-2 pt-2 border-t border-slate-100 flex justify-between font-extrabold text-slate-900">
           <span>Total Estimado:</span>
-          <span>{formatBRL(payload.reduce((acc: number, e: any) => acc + (e.value || 0), 0))}</span>
+          <span>
+            {formatBRL(
+              payload.reduce((acc: number, e: any) => acc + (e.value || 0), 0),
+            )}
+          </span>
         </div>
       </div>
     );
@@ -188,7 +237,6 @@ export default function SimuladorIvaPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fade-in">
-      
       {/* ── HEADER DA PÁGINA ──────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-blue-900 via-[#0040A8] to-[#003399] rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-3xl space-y-3">
@@ -200,7 +248,8 @@ export default function SimuladorIvaPage() {
             Calculadora Didática de Cenários da Reforma Tributária (IVA Dual)
           </h1>
           <p className="text-sm text-blue-100/90 leading-relaxed font-normal">
-            Simule cenários acadêmicos e estimativas de transição tributária com base nos textos do PLP 68/2024 e premissas do Ministério da Fazenda.
+            Simule cenários acadêmicos e estimativas de transição tributária com
+            base nos textos do PLP 68/2024 e premissas do Ministério da Fazenda.
           </p>
         </div>
       </div>
@@ -233,16 +282,19 @@ export default function SimuladorIvaPage() {
 
       {/* ── GRID PRINCIPAL: INPUTS + RESULTADOS ────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
         {/* COLUNA 1: PAINEL DE ENTRADA DE DADOS (Inputs) */}
-        <div className={`lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5 ${
-          mobileTab === "inputs" ? "block" : "hidden lg:block"
-        }`}>
+        <div
+          className={`lg:col-span-1 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5 ${
+            mobileTab === "inputs" ? "block" : "hidden lg:block"
+          }`}
+        >
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0040A8] flex items-center justify-center font-bold text-sm">
               1
             </div>
-            <h2 className="text-base font-bold text-slate-900">Parâmetros da Simulação</h2>
+            <h2 className="text-base font-bold text-slate-900">
+              Parâmetros da Simulação
+            </h2>
           </div>
 
           {/* Ajuste Manual de Alíquota Padrão (25.0% a 28.0%) */}
@@ -279,7 +331,9 @@ export default function SimuladorIvaPage() {
               max={28.0}
               step={0.1}
               value={customIvaRate}
-              onChange={(e) => setCustomIvaInput(Number(e.target.value).toFixed(1))}
+              onChange={(e) =>
+                setCustomIvaInput(Number(e.target.value).toFixed(1))
+              }
               className="w-full h-2 rounded-full cursor-pointer accent-[#0040A8] bg-slate-200"
             />
             <div className="flex justify-between text-[10px] font-bold text-slate-400">
@@ -288,7 +342,8 @@ export default function SimuladorIvaPage() {
               <span>28,0% (Máxima)</span>
             </div>
             <p className="text-[11px] text-slate-500 leading-tight">
-              Ajuste para simular cenários de maior ou menor trava de alíquota no Senado.
+              Ajuste para simular cenários de maior ou menor trava de alíquota
+              no Senado.
             </p>
           </div>
 
@@ -367,12 +422,16 @@ export default function SimuladorIvaPage() {
                   description="O débito de CBS e IBS incide 'por fora' diretamente sobre o valor total da operação de venda de bens ou prestação de serviços, sem integrar sua própria base."
                 />
               </div>
-              <span className="text-xs font-bold text-[#0040A8]">{formatBRL(salePrice)}</span>
+              <span className="text-xs font-bold text-[#0040A8]">
+                {formatBRL(salePrice)}
+              </span>
             </div>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
-                onClick={() => setSalePriceInput(String(Math.max(0, salePrice - 10000)))}
+                onClick={() =>
+                  setSalePriceInput(String(Math.max(0, salePrice - 10000)))
+                }
                 className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Diminuir R$ 10.000"
               >
@@ -423,12 +482,18 @@ export default function SimuladorIvaPage() {
                   description="Garante o direito integral a crédito de CBS e IBS cobrados em todas as operações com bens materiais ou imateriais, inclusive direitos, e serviços adquiridos pela pessoa jurídica."
                 />
               </div>
-              <span className="text-xs font-bold text-[#009A44]">{formatBRL(purchaseValue)}</span>
+              <span className="text-xs font-bold text-[#009A44]">
+                {formatBRL(purchaseValue)}
+              </span>
             </div>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
-                onClick={() => setPurchaseValueInput(String(Math.max(0, purchaseValue - 5000)))}
+                onClick={() =>
+                  setPurchaseValueInput(
+                    String(Math.max(0, purchaseValue - 5000)),
+                  )
+                }
                 className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Diminuir R$ 5.000"
               >
@@ -445,7 +510,9 @@ export default function SimuladorIvaPage() {
               />
               <button
                 type="button"
-                onClick={() => setPurchaseValueInput(String(purchaseValue + 5000))}
+                onClick={() =>
+                  setPurchaseValueInput(String(purchaseValue + 5000))
+                }
                 className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Aumentar R$ 5.000"
               >
@@ -562,26 +629,35 @@ export default function SimuladorIvaPage() {
         </div>
 
         {/* COLUNA 2 & 3: CARDS DE MÉTRICAS + GRÁFICO RECHARTS + MEMÓRIA DE CÁLCULO */}
-        <div className={`lg:col-span-2 space-y-6 ${
-          mobileTab === "results" ? "block" : "hidden lg:block"
-        }`}>
-          
+        <div
+          className={`lg:col-span-2 space-y-6 ${
+            mobileTab === "results" ? "block" : "hidden lg:block"
+          }`}
+        >
           {/* BOX VISUAL DE NOTA METODOLÓGICA (AVISO DESTACADO) */}
           <div className="p-4 sm:p-5 rounded-3xl bg-amber-50/80 border-2 border-amber-300/80 text-amber-950 text-xs shadow-sm flex items-start gap-3">
-            <span className="text-lg flex-shrink-0 mt-0.5 select-none" aria-hidden="true">📌</span>
+            <span
+              className="text-lg flex-shrink-0 mt-0.5 select-none"
+              aria-hidden="true"
+            >
+              📌
+            </span>
             <div className="space-y-1 leading-relaxed">
               <p className="font-bold text-amber-900 text-xs sm:text-sm">
                 Nota Metodológica:
               </p>
               <p className="text-amber-950/90 font-medium">
-                Esta ferramenta possui caráter exclusivamente educativo e de simulação acadêmica. Os cálculos adotam as alíquotas de referência projetadas pelo Ministério da Fazenda e o texto atual do PLP 68/2024. Não constitui parecer contábil, jurídico ou financeiro formal.
+                Esta ferramenta possui caráter exclusivamente educativo e de
+                simulação acadêmica. Os cálculos adotam as alíquotas de
+                referência projetadas pelo Ministério da Fazenda e o texto atual
+                do PLP 68/2024. Não constitui parecer contábil, jurídico ou
+                financeiro formal.
               </p>
             </div>
           </div>
 
           {/* CARDS DE RESULTADOS COMPARATIVOS */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
             {/* Card Sistema Antigo */}
             <div className="bg-white rounded-3xl p-5 border border-red-200 shadow-sm space-y-1">
               <span className="text-[11px] font-bold uppercase tracking-wider text-red-600 block">
@@ -592,7 +668,9 @@ export default function SimuladorIvaPage() {
               </p>
               <div className="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-red-100">
                 <span>Alíquota Efetiva:</span>
-                <span className="font-bold text-red-600">{formatPercent(oldResult.effectiveRate)}</span>
+                <span className="font-bold text-red-600">
+                  {formatPercent(oldResult.effectiveRate)}
+                </span>
               </div>
             </div>
 
@@ -630,13 +708,14 @@ export default function SimuladorIvaPage() {
                   <TrendingUp className="w-4 h-4 text-[#FFC700]" />
                 )}
               </div>
-              <p className="text-2xl font-black">
-                {formatBRL(Math.abs(diff))}
-              </p>
+              <p className="text-2xl font-black">{formatBRL(Math.abs(diff))}</p>
               <div className="flex items-center justify-between text-xs font-bold pt-1 border-t border-black/10">
                 <span>Diferença Relativa:</span>
-                <span className={isSavings ? "text-[#009A44]" : "text-amber-800"}>
-                  {isSavings ? "−" : "+"}{Math.abs(diffPct).toFixed(1)}% vs Antigo
+                <span
+                  className={isSavings ? "text-[#009A44]" : "text-amber-800"}
+                >
+                  {isSavings ? "−" : "+"}
+                  {Math.abs(diffPct).toFixed(1)}% vs Antigo
                 </span>
               </div>
             </div>
@@ -644,12 +723,24 @@ export default function SimuladorIvaPage() {
 
           {/* INTEGRAÇÃO DOS RESULTADOS COM O GUIA DA REFORMA (CTA SECUNDÁRIO) */}
           <Link
-            href={sector === "comercio" || sector === "industria" ? "/guia#cbs-ibs" : "/guia#setores"}
+            href={
+              sector === "comercio" || sector === "industria"
+                ? "/guia#cbs-ibs"
+                : "/guia#setores"
+            }
             className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-blue-50 via-white to-blue-50 border-2 border-blue-200/90 text-[#0040A8] hover:border-[#0040A8] hover:shadow-md transition-all group active:scale-98 text-xs sm:text-sm font-bold"
           >
             <span className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
-              <span className="text-lg flex-shrink-0 mt-0.5 sm:mt-0" aria-hidden="true">📖</span>
-              <span className="leading-snug">Entenda as regras e alíquotas deste setor ({rates.label}) no Guia da Reforma</span>
+              <span
+                className="text-lg flex-shrink-0 mt-0.5 sm:mt-0"
+                aria-hidden="true"
+              >
+                📖
+              </span>
+              <span className="leading-snug">
+                Entenda as regras e alíquotas deste setor ({rates.label}) no
+                Guia da Reforma
+              </span>
             </span>
             <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform text-[#0040A8] flex-shrink-0 font-extrabold self-end sm:self-auto">
               <span>Acessar Guia</span>
@@ -676,56 +767,79 @@ export default function SimuladorIvaPage() {
                     </span>
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Demonstração analítica da apuração de débitos, créditos e repartição federativa (2033).
+                    Demonstração analítica da apuração de débitos, créditos e
+                    repartição federativa (2033).
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs font-bold text-[#0040A8]">
                 <span>{showFormulaDetails ? "Ocultar" : "Expandir"}</span>
-                {showFormulaDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                {showFormulaDetails ? (
+                  <ChevronUp className="w-4 h-4" />
+                ) : (
+                  <ChevronDown className="w-4 h-4" />
+                )}
               </div>
             </button>
 
             {showFormulaDetails && (
               <div className="p-6 pt-2 border-t border-slate-100 bg-slate-50/50 space-y-6 animate-fade-in text-xs">
-                
                 {/* 1. Fórmula Geral */}
                 <div className="p-4 bg-white rounded-2xl border border-slate-200 space-y-2">
                   <div className="font-bold text-slate-800 flex items-center gap-2 text-sm">
                     <Sparkles className="w-4 h-4 text-[#FFC700]" />
-                    <span>Fórmula da Não-Cumulatividade Plena ("Imposto por Fora")</span>
+                    <span>
+                      Fórmula da Não-Cumulatividade Plena ("Imposto por Fora")
+                    </span>
                   </div>
                   <div className="font-mono bg-slate-100 p-3 rounded-xl text-slate-800 text-xs overflow-x-auto">
-                    Imposto Líquido = (Faturamento Bruto × Alíquota Efetiva) − (Compras Insumos × Alíquota Efetiva) + Imposto Seletivo
+                    Imposto Líquido = (Faturamento Bruto × Alíquota Efetiva) −
+                    (Compras Insumos × Alíquota Efetiva) + Imposto Seletivo
                   </div>
                   <p className="text-[11px] text-slate-500">
-                    * No regime 100% IVA Dual pleno (2033), o imposto não incide sobre si próprio nem compõe a base de cálculo dos créditos.
+                    * No regime 100% IVA Dual pleno (2033), o imposto não incide
+                    sobre si próprio nem compõe a base de cálculo dos créditos.
                   </p>
                 </div>
 
                 {/* 2. Demonstração Numérica Passo a Passo */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="p-4 bg-white rounded-2xl border border-slate-200 space-y-1">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase">1. Débito sobre Vendas</span>
-                    <p className="text-base font-black text-slate-900">{formatBRL(newResult.cbs + newResult.ibs)}</p>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase">
+                      1. Débito sobre Vendas
+                    </span>
+                    <p className="text-base font-black text-slate-900">
+                      {formatBRL(newResult.cbs + newResult.ibs)}
+                    </p>
                     <p className="text-[11px] text-slate-500 font-mono">
-                      {formatBRL(salePrice)} × {formatPercent(effectiveTotalRate)}
+                      {formatBRL(salePrice)} ×{" "}
+                      {formatPercent(effectiveTotalRate)}
                     </p>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-emerald-200 bg-emerald-50/30 space-y-1">
-                    <span className="text-[10px] font-bold text-emerald-700 uppercase">2. Crédito sobre Insumos</span>
-                    <p className="text-base font-black text-[#009A44]">{formatBRL(newResult.creditCbs + newResult.creditIbs)}</p>
+                    <span className="text-[10px] font-bold text-emerald-700 uppercase">
+                      2. Crédito sobre Insumos
+                    </span>
+                    <p className="text-base font-black text-[#009A44]">
+                      {formatBRL(newResult.creditCbs + newResult.creditIbs)}
+                    </p>
                     <p className="text-[11px] text-slate-500 font-mono">
-                      {formatBRL(purchaseValue)} × {formatPercent(effectiveTotalRate)}
+                      {formatBRL(purchaseValue)} ×{" "}
+                      {formatPercent(effectiveTotalRate)}
                     </p>
                   </div>
 
                   <div className="p-4 bg-white rounded-2xl border border-blue-200 bg-blue-50/30 space-y-1">
-                    <span className="text-[10px] font-bold text-[#0040A8] uppercase">3. Imposto Líquido (2033)</span>
-                    <p className="text-base font-black text-[#0040A8]">{formatBRL(newResult.totalTax)}</p>
+                    <span className="text-[10px] font-bold text-[#0040A8] uppercase">
+                      3. Imposto Líquido (2033)
+                    </span>
+                    <p className="text-base font-black text-[#0040A8]">
+                      {formatBRL(newResult.totalTax)}
+                    </p>
                     <p className="text-[11px] text-slate-500 font-mono">
-                      {formatBRL(newResult.cbs + newResult.ibs)} − {formatBRL(newResult.creditCbs + newResult.creditIbs)}
+                      {formatBRL(newResult.cbs + newResult.ibs)} −{" "}
+                      {formatBRL(newResult.creditCbs + newResult.creditIbs)}
                       {hasIS ? ` + ${formatBRL(newResult.is)} (IS)` : ""}
                     </p>
                   </div>
@@ -734,7 +848,9 @@ export default function SimuladorIvaPage() {
                 {/* 3. Tabela de Repartição Federativa (CBS Federal vs IBS Estados/Municípios) */}
                 <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
                   <div className="px-4 py-3 bg-slate-100/80 border-b border-slate-200 font-bold text-slate-700 flex items-center justify-between">
-                    <span>Repartição Federativa Detalhada (Vigência Plena 2033)</span>
+                    <span>
+                      Repartição Federativa Detalhada (Vigência Plena 2033)
+                    </span>
                   </div>
                   <div className="sm:hidden px-4 py-1.5 bg-blue-50/70 border-b border-blue-100 text-[11px] font-bold text-[#0040A8] text-center">
                     ← Deslize para visualizar todas as colunas →
@@ -754,41 +870,85 @@ export default function SimuladorIvaPage() {
                       <tbody className="divide-y divide-slate-100 text-slate-700">
                         <tr>
                           <td className="p-3 font-bold text-[#0040A8]">CBS</td>
-                          <td className="p-3 text-slate-500">União (Federal)</td>
-                          <td className="p-3 font-mono">{formatPercent(effectiveCbsRate)}</td>
-                          <td className="p-3 text-right font-mono">{formatBRL(newResult.cbs)}</td>
-                          <td className="p-3 text-right font-mono text-[#009A44]">−{formatBRL(newResult.creditCbs)}</td>
-                          <td className="p-3 text-right font-black font-mono text-[#0040A8]">{formatBRL(newResult.netCbs)}</td>
+                          <td className="p-3 text-slate-500">
+                            União (Federal)
+                          </td>
+                          <td className="p-3 font-mono">
+                            {formatPercent(effectiveCbsRate)}
+                          </td>
+                          <td className="p-3 text-right font-mono">
+                            {formatBRL(newResult.cbs)}
+                          </td>
+                          <td className="p-3 text-right font-mono text-[#009A44]">
+                            −{formatBRL(newResult.creditCbs)}
+                          </td>
+                          <td className="p-3 text-right font-black font-mono text-[#0040A8]">
+                            {formatBRL(newResult.netCbs)}
+                          </td>
                         </tr>
                         <tr>
                           <td className="p-3 font-bold text-[#009A44]">IBS</td>
-                          <td className="p-3 text-slate-500">Estados e Municípios</td>
-                          <td className="p-3 font-mono">{formatPercent(effectiveIbsRate)}</td>
-                          <td className="p-3 text-right font-mono">{formatBRL(newResult.ibs)}</td>
-                          <td className="p-3 text-right font-mono text-[#009A44]">−{formatBRL(newResult.creditIbs)}</td>
-                          <td className="p-3 text-right font-black font-mono text-[#009A44]">{formatBRL(newResult.netIbs)}</td>
+                          <td className="p-3 text-slate-500">
+                            Estados e Municípios
+                          </td>
+                          <td className="p-3 font-mono">
+                            {formatPercent(effectiveIbsRate)}
+                          </td>
+                          <td className="p-3 text-right font-mono">
+                            {formatBRL(newResult.ibs)}
+                          </td>
+                          <td className="p-3 text-right font-mono text-[#009A44]">
+                            −{formatBRL(newResult.creditIbs)}
+                          </td>
+                          <td className="p-3 text-right font-black font-mono text-[#009A44]">
+                            {formatBRL(newResult.netIbs)}
+                          </td>
                         </tr>
                         {hasIS && (
                           <tr className="bg-amber-50/50">
-                            <td className="p-3 font-bold text-amber-700">Imposto Seletivo</td>
-                            <td className="p-3 text-slate-500">União (Desestímulo)</td>
-                            <td className="p-3 font-mono">{isRate.toFixed(1)}%</td>
-                            <td className="p-3 text-right font-mono">{formatBRL(newResult.is)}</td>
-                            <td className="p-3 text-right font-mono text-slate-400">R$ 0,00 (Sem crédito)</td>
-                            <td className="p-3 text-right font-black font-mono text-amber-800">{formatBRL(newResult.is)}</td>
+                            <td className="p-3 font-bold text-amber-700">
+                              Imposto Seletivo
+                            </td>
+                            <td className="p-3 text-slate-500">
+                              União (Desestímulo)
+                            </td>
+                            <td className="p-3 font-mono">
+                              {isRate.toFixed(1)}%
+                            </td>
+                            <td className="p-3 text-right font-mono">
+                              {formatBRL(newResult.is)}
+                            </td>
+                            <td className="p-3 text-right font-mono text-slate-400">
+                              R$ 0,00 (Sem crédito)
+                            </td>
+                            <td className="p-3 text-right font-black font-mono text-amber-800">
+                              {formatBRL(newResult.is)}
+                            </td>
                           </tr>
                         )}
                         <tr className="bg-slate-50 font-black text-slate-900 border-t border-slate-200">
-                          <td className="p-3" colSpan={3}>TOTAL GERAL RECOLHIDO (2033)</td>
-                          <td className="p-3 text-right font-mono">{formatBRL(newResult.cbs + newResult.ibs + newResult.is)}</td>
-                          <td className="p-3 text-right font-mono text-[#009A44]">−{formatBRL(newResult.creditCbs + newResult.creditIbs)}</td>
-                          <td className="p-3 text-right font-mono text-[#0040A8]">{formatBRL(newResult.totalTax)}</td>
+                          <td className="p-3" colSpan={3}>
+                            TOTAL GERAL RECOLHIDO (2033)
+                          </td>
+                          <td className="p-3 text-right font-mono">
+                            {formatBRL(
+                              newResult.cbs + newResult.ibs + newResult.is,
+                            )}
+                          </td>
+                          <td className="p-3 text-right font-mono text-[#009A44]">
+                            −
+                            {formatBRL(
+                              newResult.creditCbs + newResult.creditIbs,
+                            )}
+                          </td>
+                          <td className="p-3 text-right font-mono text-[#0040A8]">
+                            {formatBRL(newResult.totalTax)}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-
               </div>
             )}
           </div>
@@ -801,16 +961,24 @@ export default function SimuladorIvaPage() {
                   Evolução da Arrecadação por Tributo (2026–2033)
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Acompanhe como a extinção de ICMS, ISS e PIS/Cofins é compensada pela entrada da CBS e IBS com alíquota padrão configurada em {customIvaRate.toFixed(1)}%.
+                  Acompanhe como a extinção de ICMS, ISS e PIS/Cofins é
+                  compensada pela entrada da CBS e IBS com alíquota padrão
+                  configurada em {customIvaRate.toFixed(1)}%.
                 </p>
               </div>
             </div>
 
             <div className="h-72 sm:h-80 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -12, bottom: 5 }}>
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 10, right: 10, left: -12, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                  <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#64748B" }} />
+                  <XAxis
+                    dataKey="label"
+                    tick={{ fontSize: 10, fill: "#64748B" }}
+                  />
                   <YAxis
                     width={46}
                     tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`}
@@ -818,13 +986,18 @@ export default function SimuladorIvaPage() {
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: 10, paddingTop: 8 }} />
-                  
+
                   {/* Linha guia do sistema antigo */}
                   <ReferenceLine
                     y={oldResult.totalTax}
                     stroke="#EF4444"
                     strokeDasharray="4 4"
-                    label={{ value: "Antigo", fill: "#EF4444", fontSize: 11, position: "right" }}
+                    label={{
+                      value: "Antigo",
+                      fill: "#EF4444",
+                      fontSize: 11,
+                      position: "right",
+                    }}
                   />
 
                   {/* Barras coloridas com paleta oficial */}
@@ -835,7 +1008,9 @@ export default function SimuladorIvaPage() {
                   <Bar dataKey="ISS" stackId="tributos" fill="#F97316" />
                   <Bar dataKey="CBS" stackId="tributos" fill="#0040A8" />
                   <Bar dataKey="IBS" stackId="tributos" fill="#009A44" />
-                  {hasIS && <Bar dataKey="IS" stackId="tributos" fill="#FFC700" />}
+                  {hasIS && (
+                    <Bar dataKey="IS" stackId="tributos" fill="#FFC700" />
+                  )}
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -843,10 +1018,12 @@ export default function SimuladorIvaPage() {
             <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-0.5 bg-red-500 inline-block border-t border-dashed"></span>
-                Linha tracejada vermelha: Carga do Sistema Antigo ({formatBRL(oldResult.totalTax)})
+                Linha tracejada vermelha: Carga do Sistema Antigo (
+                {formatBRL(oldResult.totalTax)})
               </span>
               <span className="font-semibold text-slate-700">
-                Crédito de Compras Abatido: {formatBRL(newResult.creditCbs + newResult.creditIbs)}
+                Crédito de Compras Abatido:{" "}
+                {formatBRL(newResult.creditCbs + newResult.creditIbs)}
               </span>
             </div>
           </div>
@@ -862,34 +1039,47 @@ export default function SimuladorIvaPage() {
                   Benefício da Não-Cumulatividade Plena
                 </h2>
                 <p className="text-xs text-slate-600">
-                  No novo IVA Dual, todas as compras de insumos e serviços empresariais geram crédito de abatimento.
+                  No novo IVA Dual, todas as compras de insumos e serviços
+                  empresariais geram crédito de abatimento.
                 </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div className="p-3 bg-white rounded-2xl border border-emerald-100 shadow-2xs">
-                <span className="text-slate-400 block font-semibold">Crédito de CBS (Federal)</span>
+                <span className="text-slate-400 block font-semibold">
+                  Crédito de CBS (Federal)
+                </span>
                 <span className="text-base font-black text-[#0040A8] mt-0.5 block">
                   {formatBRL(newResult.creditCbs)}
                 </span>
-                <span className="text-[10px] text-slate-500">Abatimento direto na guia federal</span>
+                <span className="text-[10px] text-slate-500">
+                  Abatimento direto na guia federal
+                </span>
               </div>
 
               <div className="p-3 bg-white rounded-2xl border border-emerald-100 shadow-2xs">
-                <span className="text-slate-400 block font-semibold">Crédito de IBS (Subnacional)</span>
+                <span className="text-slate-400 block font-semibold">
+                  Crédito de IBS (Subnacional)
+                </span>
                 <span className="text-base font-black text-[#009A44] mt-0.5 block">
                   {formatBRL(newResult.creditIbs)}
                 </span>
-                <span className="text-[10px] text-slate-500">Abatimento direto no Comitê Gestor</span>
+                <span className="text-[10px] text-slate-500">
+                  Abatimento direto no Comitê Gestor
+                </span>
               </div>
 
               <div className="p-3 bg-white rounded-2xl border border-emerald-200 shadow-2xs">
-                <span className="text-slate-400 block font-semibold">Total Economizado em Crédito</span>
+                <span className="text-slate-400 block font-semibold">
+                  Total Economizado em Crédito
+                </span>
                 <span className="text-base font-black text-emerald-700 mt-0.5 block">
                   {formatBRL(newResult.creditCbs + newResult.creditIbs)}
                 </span>
-                <span className="text-[10px] text-emerald-600 font-bold">Eliminação do efeito cascata</span>
+                <span className="text-[10px] text-emerald-600 font-bold">
+                  Eliminação do efeito cascata
+                </span>
               </div>
             </div>
           </div>
@@ -907,7 +1097,6 @@ export default function SimuladorIvaPage() {
               <span>← Alterar Parâmetros da Simulação</span>
             </button>
           </div>
-
         </div>
       </div>
 
@@ -919,10 +1108,15 @@ export default function SimuladorIvaPage() {
             Aviso de Isenção de Responsabilidade (Disclaimer):
           </p>
           <p className="leading-relaxed text-slate-600">
-            As alíquotas e valores apresentados são simulações estimativas baseadas nas projeções do Ministério da Fazenda e nos textos dos PLPs 68/2024 e 108/2024. Não substituem consultoria contábil ou jurídica formal.
+            As alíquotas e valores apresentados são simulações estimativas
+            baseadas nas projeções do Ministério da Fazenda e nos textos dos
+            PLPs 68/2024 e 108/2024. Não substituem consultoria contábil ou
+            jurídica formal.
           </p>
           <p className="text-[11px] text-slate-500 italic">
-            * A alíquota de referência padrão de {customIvaRate.toFixed(1)}% está sujeita à fixação e regulamentação final pelo Senado Federal nos termos da EC 132/2023.
+            * A alíquota de referência padrão de {customIvaRate.toFixed(1)}%
+            está sujeita à fixação e regulamentação final pelo Senado Federal
+            nos termos da EC 132/2023.
           </p>
         </div>
       </div>
@@ -934,15 +1128,30 @@ export default function SimuladorIvaPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "Calculadora Didática IVA Dual TRIBUTABR",
+            "@id": "https://tributabr.com.br/simulador-iva/#webapp",
+            name: "Calculadora Didática IVA Dual TRIBUTABR (CBS e IBS)",
+            url: "https://tributabr.com.br/simulador-iva",
+            applicationCategory: "FinanceApplication",
             operatingSystem: "All",
-            applicationCategory: "EducationalApplication",
+            browserRequirements: "Requires JavaScript. Requires HTML5.",
             description:
-              "Simulador pedagógico de impactos da Reforma Tributária (CBS e IBS) baseado no PLP 68/2024.",
+              "Ferramenta interativa e pedagógica para simular impactos da Reforma Tributária (CBS e IBS), apuração de créditos sobre insumos e transição gradual de 2026 a 2033.",
             offers: {
               "@type": "Offer",
               price: "0",
               priceCurrency: "BRL",
+            },
+            featureList: [
+              "Simulação de alíquotas nominais e efetivas de CBS e IBS",
+              "Cálculo de crédito financeiro integral de insumos e compras B2B",
+              "Projeção gráfica anual da transição tributária de 2026 a 2033",
+              "Comparação lado a lado com o sistema anterior (PIS, Cofins, ICMS, ISS e IPI)",
+              "Ajustes de trava de alíquota padrão e regimes especiais",
+            ],
+            creator: {
+              "@type": "Organization",
+              name: "TRIBUTABR",
+              url: "https://tributabr.com.br",
             },
           }),
         }}

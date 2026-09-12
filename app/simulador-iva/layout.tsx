@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
+  alternates: {
+    canonical: "/simulador-iva",
+  },
+  title:
+    "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
   description:
     "Calcule cenários e estimativas do IVA Dual (CBS e IBS) para seu negócio. Ferramenta didática baseada na EC 132/2023 e PLP 68/2024.",
   keywords: [
@@ -15,7 +19,8 @@ export const metadata: Metadata = {
     "TRIBUTABR",
   ],
   openGraph: {
-    title: "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
+    title:
+      "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
     description:
       "Calcule cenários e estimativas do IVA Dual (CBS e IBS) para seu negócio. Ferramenta didática baseada na EC 132/2023 e PLP 68/2024.",
     url: "https://tributabr.com.br/simulador-iva",
@@ -33,7 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
+    title:
+      "Calculadora IVA Dual (CBS/IBS) — Simule o Impacto do PLP 68/2024 | TRIBUTABR",
     description:
       "Calcule cenários e estimativas do IVA Dual (CBS e IBS) para seu negócio. Ferramenta didática baseada na EC 132/2023 e PLP 68/2024.",
     images: ["https://tributabr.com.br/logo.png"],

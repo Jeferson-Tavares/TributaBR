@@ -8,7 +8,17 @@ const geist = Geist({ subsets: ["latin"] });
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const iconPath = `${basePath}/faviconTributa.svg`;
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://tributabr.com.br"
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   title: "TRIBUTABR — Entenda a Nova Reforma Tributária Brasileira",
   description:
     "Plataforma independente e educativa para compreender a Nova Reforma Tributária do Brasil (EC nº 132/2023, PLP 68/2024 e PLP 108/2024). Simuladores de IVA Dual (CBS/IBS), dosimetria de multas e feed de notícias atualizado.",
