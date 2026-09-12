@@ -47,8 +47,8 @@ export default function TermosDeUsoPage() {
         
         {/* 1. Aceitação dos Termos */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <CheckCircle className="w-5 h-5 text-[#009A44]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <CheckCircle className="w-5 h-5 text-[#009A44] flex-shrink-0 mt-1" />
             <h2>1. Aceitação dos Termos e Condições</h2>
           </div>
           <p>
@@ -64,8 +64,8 @@ export default function TermosDeUsoPage() {
 
         {/* 2. Natureza Informativa e Educativa */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <BookOpen className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <BookOpen className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>2. Natureza Exclusivamente Informativa e Pedagógica</h2>
           </div>
           <p>
@@ -95,8 +95,8 @@ export default function TermosDeUsoPage() {
 
         {/* 3. Não Substituição de Consultoria Formal */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <ShieldAlert className="w-5 h-5 text-red-600" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <ShieldAlert className="w-5 h-5 text-red-600 flex-shrink-0 mt-1" />
             <h2>3. Não Substituição de Pareceres e Consultoria Formal</h2>
           </div>
           <div className="p-4 rounded-2xl bg-red-50/70 border border-red-200 text-red-950 space-y-2 text-xs">
@@ -116,8 +116,8 @@ export default function TermosDeUsoPage() {
 
         {/* 4. Premissas das Simulações e Parâmetros */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <Scale className="w-5 h-5 text-[#FFC700]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <Scale className="w-5 h-5 text-[#FFC700] flex-shrink-0 mt-1" />
             <h2>4. Premissas das Simulações e Alíquotas de Referência</h2>
           </div>
           <p>
@@ -143,8 +143,8 @@ export default function TermosDeUsoPage() {
 
         {/* 5. Propriedade Intelectual e Uso Aceitável */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <FileText className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <FileText className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>5. Propriedade Intelectual e Conduta do Usuário</h2>
           </div>
           <p>
@@ -166,8 +166,8 @@ export default function TermosDeUsoPage() {
 
         {/* 6. Limitação de Responsabilidade */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <HelpCircle className="w-5 h-5 text-slate-600" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <HelpCircle className="w-5 h-5 text-slate-600 flex-shrink-0 mt-1" />
             <h2>6. Limitação de Responsabilidade</h2>
           </div>
           <p className="text-xs text-slate-600">
@@ -179,8 +179,8 @@ export default function TermosDeUsoPage() {
 
         {/* 7. Foro e Legislação Aplicável */}
         <section className="space-y-3 pt-2">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <Scale className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <Scale className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>7. Legislação Aplicável e Contato</h2>
           </div>
           <p>

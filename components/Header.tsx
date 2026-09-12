@@ -216,7 +216,7 @@ export default function Header() {
                             : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                         }`}
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
                           <div
                             className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                               active
@@ -226,22 +226,22 @@ export default function Header() {
                           >
                             {item.icon}
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-bold">{item.label}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-sm font-bold text-slate-900">{item.label}</span>
                               {item.badge && (
-                                <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase bg-[#009A44] text-white">
+                                <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase bg-[#009A44] text-white flex-shrink-0">
                                   {item.badge}
                                 </span>
                               )}
                             </div>
-                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1">
+                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1 mt-0.5">
                               {item.description}
                             </p>
                           </div>
                         </div>
                         <ChevronRight
-                          className={`w-4 h-4 flex-shrink-0 ${
+                          className={`w-4 h-4 flex-shrink-0 ml-2 ${
                             active ? "text-[#0040A8]" : "text-slate-400"
                           }`}
                         />
@@ -270,7 +270,7 @@ export default function Header() {
                             : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                         }`}
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
                           <div
                             className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                               active
@@ -280,22 +280,22 @@ export default function Header() {
                           >
                             {item.icon}
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-bold">{item.label}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-sm font-bold text-slate-900">{item.label}</span>
                               {item.badge && (
-                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase bg-slate-100 text-slate-600 border border-slate-200">
+                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase bg-slate-100 text-slate-600 border border-slate-200 flex-shrink-0">
                                   {item.badge}
                                 </span>
                               )}
                             </div>
-                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1">
+                            <p className="text-[11px] text-slate-500 font-normal line-clamp-1 mt-0.5">
                               {item.description}
                             </p>
                           </div>
                         </div>
                         <ChevronRight
-                          className={`w-4 h-4 flex-shrink-0 ${
+                          className={`w-4 h-4 flex-shrink-0 ml-2 ${
                             active ? "text-[#0040A8]" : "text-slate-400"
                           }`}
                         />
@@ -307,7 +307,7 @@ export default function Header() {
             </div>
 
             {/* Rodapé do Drawer */}
-            <div className="p-4 border-t border-slate-200 bg-slate-50 text-[11px] text-slate-500 text-center">
+            <div className="p-4 border-t border-slate-200 bg-slate-50 text-[11px] text-slate-500 text-center pb-safe">
               Guia independente e educativo sobre a Reforma Tributária.
             </div>
           </div>

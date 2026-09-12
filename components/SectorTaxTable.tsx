@@ -268,12 +268,12 @@ export default function SectorTaxTable() {
             {/* Mobile: cartões empilhados */}
             <div className="block sm:hidden space-y-2">
               {selectedSector.oldTaxes.map((tax, i) => (
-                <div key={i} className="p-2.5 rounded-xl bg-white/90 border border-red-200/80 flex items-center justify-between text-xs">
-                  <div>
+                <div key={i} className="p-3 rounded-xl bg-white/90 border border-red-200/80 flex items-center justify-between gap-3 text-xs">
+                  <div className="min-w-0 flex-1">
                     <span className="font-bold text-slate-800 block">{tax.name}</span>
-                    <span className="text-[11px] text-slate-500">{tax.mechanism}</span>
+                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{tax.mechanism}</span>
                   </div>
-                  <span className="font-extrabold text-red-700 bg-red-50 px-2 py-1 rounded-lg border border-red-100">
+                  <span className="font-extrabold text-red-700 bg-red-50 px-2.5 py-1 rounded-lg border border-red-100 flex-shrink-0 text-right">
                     {tax.rate}
                   </span>
                 </div>
@@ -331,12 +331,12 @@ export default function SectorTaxTable() {
             {/* Mobile: cartões empilhados */}
             <div className="block sm:hidden space-y-2">
               {selectedSector.newTaxes.map((tax, i) => (
-                <div key={i} className="p-2.5 rounded-xl bg-white/90 border border-emerald-200/80 flex items-center justify-between text-xs">
-                  <div>
+                <div key={i} className="p-3 rounded-xl bg-white/90 border border-emerald-200/80 flex items-center justify-between gap-3 text-xs">
+                  <div className="min-w-0 flex-1">
                     <span className="font-bold text-slate-800 block">{tax.name}</span>
-                    <span className="text-[11px] text-slate-500">{tax.mechanism}</span>
+                    <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">{tax.mechanism}</span>
                   </div>
-                  <span className="font-extrabold text-[#009A44] bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-100">
+                  <span className="font-extrabold text-[#009A44] bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 flex-shrink-0 text-right">
                     {tax.rate}
                   </span>
                 </div>
@@ -383,13 +383,13 @@ export default function SectorTaxTable() {
 
       {/* Destaque Prático do Setor */}
       <div className="mt-5 p-4 rounded-2xl bg-blue-50/70 border border-blue-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <CheckCircle2 className="w-5 h-5 text-[#009A44] flex-shrink-0" />
-          <p className="text-xs sm:text-sm text-slate-800 font-medium">
+        <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+          <CheckCircle2 className="w-5 h-5 text-[#009A44] flex-shrink-0 mt-0.5" />
+          <p className="text-xs sm:text-sm text-slate-800 font-medium leading-snug">
             <strong>Impacto Direto:</strong> {selectedSector.impactHighlight}
           </p>
         </div>
-        <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider bg-[#0040A8] text-white whitespace-nowrap self-end sm:self-auto">
+        <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider bg-[#0040A8] text-white whitespace-nowrap self-start sm:self-auto flex-shrink-0">
           {selectedSector.impactType === "positivo" ? "Fator Positivo" : selectedSector.impactType === "atencao" ? "Ajuste Contábil" : "Equilibrado"}
         </span>
       </div>

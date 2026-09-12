@@ -158,7 +158,7 @@ export default function SobreNosPage() {
 
             <div className="space-y-4 text-xs text-slate-600">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0040A8] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0040A8] flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
@@ -178,7 +178,7 @@ export default function SobreNosPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-[#009A44] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-[#009A44] flex items-center justify-center flex-shrink-0 mt-0.5">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
@@ -193,7 +193,7 @@ export default function SobreNosPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 text-[#FFC700] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-amber-50 text-[#FFC700] flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Award className="w-4 h-4" />
                 </div>
                 <div>
@@ -262,7 +262,7 @@ export default function SobreNosPage() {
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
                   Seu Nome *
                 </label>
-                <input
+                  <input
                   type="text"
                   required
                   value={formData.nome}
@@ -270,7 +270,7 @@ export default function SobreNosPage() {
                     setFormData({ ...formData, nome: e.target.value })
                   }
                   placeholder="Ex: João da Silva"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all min-h-[44px]"
                 />
               </div>
 
@@ -286,7 +286,7 @@ export default function SobreNosPage() {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   placeholder="Ex: joao@empresa.com.br"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all min-h-[44px]"
                 />
               </div>
             </div>
@@ -300,7 +300,7 @@ export default function SobreNosPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, assunto: e.target.value })
                 }
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:bg-white focus:border-[#0040A8] focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer min-h-[44px]"
               >
                 <option value="Dúvida Geral">
                   Dúvida sobre a Reforma Tributária
@@ -351,9 +351,9 @@ export default function SobreNosPage() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0040A8] hover:bg-[#003399] text-white text-xs font-bold shadow-md shadow-blue-900/10 transition-all active:scale-95 disabled:opacity-70 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0040A8] hover:bg-[#003399] text-white text-sm font-bold shadow-md shadow-blue-900/10 transition-all active:scale-95 disabled:opacity-70 cursor-pointer min-h-[48px]"
             >
-              <Send className="w-3.5 h-3.5" />
+              <Send className="w-4 h-4" />
               <span>
                 {loading ? "Enviando mensagem..." : "Enviar Mensagem"}
               </span>

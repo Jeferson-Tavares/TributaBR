@@ -48,25 +48,25 @@ export default function PafAccordion() {
               className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors focus:outline-none min-h-[48px]"
               aria-expanded={isOpen}
             >
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="p-2 sm:p-2.5 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+              <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0 pr-2">
+                <div className="p-2 sm:p-2.5 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                   {item.icon}
                 </div>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="font-bold text-sm sm:text-base text-white">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <h4 className="font-bold text-sm sm:text-base text-white leading-snug">
                       {item.title}
                     </h4>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15 text-[#FFC700] border border-white/20">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15 text-[#FFC700] border border-white/20 flex-shrink-0">
                       {item.law}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 mt-0.5 line-clamp-1">
+                  <p className="text-xs text-slate-300 mt-1 line-clamp-2 sm:line-clamp-1 leading-normal">
                     {item.summary}
                   </p>
                 </div>
               </div>
-              <div className="text-white/70 ml-2">
+              <div className="text-white/70 ml-2 flex-shrink-0 mt-1">
                 {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
               </div>
             </button>

@@ -25,6 +25,16 @@ export default function TransitionTimeline() {
         </div>
       </div>
 
+      {/* Aviso de rolagem no mobile */}
+      <div className="flex sm:hidden items-center justify-between text-[11px] font-bold text-slate-400 mb-2 px-1">
+        <span>Arraste para selecionar o ano:</span>
+        <span className="text-[#0040A8] flex items-center gap-1">
+          <span>2026</span>
+          <span>→</span>
+          <span>2033</span>
+        </span>
+      </div>
+
       {/* Régua de Anos Interativa (Distribuição Uniforme ao Longo de Toda a Largura) */}
       <div className="overflow-x-auto pb-3 mb-6 scrollbar-thin">
         <div className="grid grid-cols-8 gap-1.5 min-w-[720px] sm:min-w-0 w-full p-1.5 bg-slate-50 rounded-2xl border border-slate-200">
@@ -36,7 +46,7 @@ export default function TransitionTimeline() {
               <button
                 key={item.year}
                 onClick={() => setSelectedYear(item.year)}
-                className={`relative flex flex-col items-center justify-center w-full px-2 sm:px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-150 ${
+                className={`relative flex flex-col items-center justify-center w-full px-2 sm:px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer min-h-[44px] ${
                   isSelected
                     ? "bg-[#0040A8] text-white shadow-md shadow-blue-900/15"
                     : "text-slate-600 hover:bg-white hover:text-slate-900"
@@ -71,8 +81,8 @@ export default function TransitionTimeline() {
       <div className="bg-gradient-to-br from-slate-50 via-blue-50/40 to-slate-50 rounded-2xl p-5 sm:p-6 border border-blue-200/80 animate-fade-in">
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-blue-200/60">
-          <div className="flex items-center gap-3">
-            <div className="flex flex-col items-center justify-center min-w-[56px] px-3 py-2 rounded-xl bg-[#0040A8] text-white shadow-md shadow-blue-900/15 border border-blue-700/50">
+          <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+            <div className="flex flex-col items-center justify-center min-w-[56px] px-3 py-2 rounded-xl bg-[#0040A8] text-white shadow-md shadow-blue-900/15 border border-blue-700/50 flex-shrink-0 mt-0.5 sm:mt-0">
               <span className="text-base sm:text-lg font-black tracking-tight leading-none">
                 {currentStep.year}
               </span>
@@ -80,11 +90,11 @@ export default function TransitionTimeline() {
                 {currentStep.year === 2033 ? "Pleno" : currentStep.year === 2026 ? "Teste" : "Fase"}
               </span>
             </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#0040A8]">
+            <div className="min-w-0 flex-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0040A8] block">
                 Etapa Operacional
               </span>
-              <h4 className="text-lg font-extrabold text-slate-900">
+              <h4 className="text-base sm:text-lg font-extrabold text-slate-900 leading-snug mt-0.5">
                 {currentStep.year === 2026 && "2026: Início do Teste Operacional (Alíquota Simbólica)"}
                 {currentStep.year === 2027 && "2027: Entrada em Vigor Total da CBS e Extinção do PIS/Cofins"}
                 {currentStep.year === 2028 && "2028: Consolidação da CBS e Ajuste Federativo do IBS"}
@@ -94,7 +104,7 @@ export default function TransitionTimeline() {
             </div>
           </div>
 
-          <span className="text-xs font-bold px-3 py-1 rounded-full uppercase bg-white border border-blue-200 text-[#0040A8] self-start sm:self-auto shadow-2xs">
+          <span className="text-xs font-bold px-3 py-1 rounded-full uppercase bg-white border border-blue-200 text-[#0040A8] self-start sm:self-auto shadow-2xs flex-shrink-0">
             {currentStep.year === 2033 ? "Meta Final Concluída" : "Em Andamento Legal"}
           </span>
         </div>

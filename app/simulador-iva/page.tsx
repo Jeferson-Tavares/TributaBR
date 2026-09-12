@@ -26,6 +26,7 @@ import {
   Sliders,
   Scale,
   Sparkles,
+  ArrowRight,
   Plus,
   Minus,
 } from "lucide-react";
@@ -68,14 +69,14 @@ function LegalTooltip({
       </button>
 
       {open && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 sm:w-72 p-3 bg-slate-900/95 backdrop-blur-md text-white rounded-xl shadow-2xl border border-slate-700/80 text-[11px] leading-snug z-50 animate-fade-in pointer-events-none">
+        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2 w-64 sm:w-72 max-w-[calc(100vw-2.5rem)] p-3 bg-slate-900/95 backdrop-blur-md text-white rounded-xl shadow-2xl border border-slate-700/80 text-[11px] leading-snug z-50 animate-fade-in pointer-events-none">
           <div className="flex items-center gap-1.5 text-[#FFC700] font-bold mb-1 border-b border-slate-700 pb-1">
             <Scale className="w-3.5 h-3.5 flex-shrink-0" />
-            <span>{law}</span>
+            <span className="truncate">{law}</span>
           </div>
           <div className="font-semibold text-slate-200 mb-1">{title}</div>
           <p className="text-slate-300">{description}</p>
-          <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-slate-900"></div>
+          <div className="hidden sm:block absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-slate-900"></div>
         </div>
       )}
     </div>
@@ -355,7 +356,7 @@ export default function SimuladorIvaPage() {
 
           {/* Valor da Venda / Faturamento Bruto com Steppers Rápidos */}
           <div>
-            <div className="flex justify-between items-center mb-1">
+            <div className="flex flex-wrap justify-between items-center gap-1 mb-1.5">
               <div className="flex items-center">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   Faturamento Bruto (R$)
@@ -372,7 +373,7 @@ export default function SimuladorIvaPage() {
               <button
                 type="button"
                 onClick={() => setSalePriceInput(String(Math.max(0, salePrice - 10000)))}
-                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Diminuir R$ 10.000"
               >
                 <Minus className="w-4 h-4" />
@@ -389,19 +390,19 @@ export default function SimuladorIvaPage() {
               <button
                 type="button"
                 onClick={() => setSalePriceInput(String(salePrice + 10000))}
-                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Aumentar R$ 10.000"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex gap-1.5 mt-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {[50000, 100000, 250000, 500000].map((quickVal) => (
                 <button
                   key={quickVal}
                   type="button"
                   onClick={() => setSalePriceInput(String(quickVal))}
-                  className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-blue-50 hover:text-[#0040A8] text-slate-600 border border-slate-200 transition-colors"
+                  className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-blue-50 hover:text-[#0040A8] text-slate-600 border border-slate-200 transition-colors cursor-pointer"
                 >
                   R${quickVal / 1000}k
                 </button>
@@ -411,7 +412,7 @@ export default function SimuladorIvaPage() {
 
           {/* Valor dos Insumos / Compras (Crédito) com Steppers Rápidos */}
           <div>
-            <div className="flex justify-between items-center mb-1">
+            <div className="flex flex-wrap justify-between items-center gap-1 mb-1.5">
               <div className="flex items-center">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   Compras de Insumos / B2B (R$)
@@ -428,7 +429,7 @@ export default function SimuladorIvaPage() {
               <button
                 type="button"
                 onClick={() => setPurchaseValueInput(String(Math.max(0, purchaseValue - 5000)))}
-                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Diminuir R$ 5.000"
               >
                 <Minus className="w-4 h-4" />
@@ -445,19 +446,19 @@ export default function SimuladorIvaPage() {
               <button
                 type="button"
                 onClick={() => setPurchaseValueInput(String(purchaseValue + 5000))}
-                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-bold transition-all cursor-pointer"
                 aria-label="Aumentar R$ 5.000"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex gap-1.5 mt-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {[20000, 40000, 100000, 200000].map((quickVal) => (
                 <button
                   key={quickVal}
                   type="button"
                   onClick={() => setPurchaseValueInput(String(quickVal))}
-                  className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-emerald-50 hover:text-[#009A44] text-slate-600 border border-slate-200 transition-colors"
+                  className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-emerald-50 hover:text-[#009A44] text-slate-600 border border-slate-200 transition-colors cursor-pointer"
                 >
                   R${quickVal / 1000}k
                 </button>
@@ -542,6 +543,21 @@ export default function SimuladorIvaPage() {
           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 flex items-start gap-2">
             <Info className="w-4 h-4 text-[#0040A8] flex-shrink-0 mt-0.5" />
             <p className="leading-relaxed">{currentSchedule.description}</p>
+          </div>
+
+          {/* Botão Mobile para Avançar para Resultados */}
+          <div className="lg:hidden pt-2 border-t border-slate-100">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("results");
+                window.scrollTo({ top: 280, behavior: "smooth" });
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-[#0040A8] hover:bg-[#003399] text-white font-bold text-sm shadow-md shadow-blue-900/15 active:scale-98 min-h-[48px] cursor-pointer"
+            >
+              <span>Ver Resultados e Gráficos</span>
+              <ArrowRight className="w-4 h-4 flex-shrink-0" />
+            </button>
           </div>
         </div>
 
@@ -629,13 +645,13 @@ export default function SimuladorIvaPage() {
           {/* INTEGRAÇÃO DOS RESULTADOS COM O GUIA DA REFORMA (CTA SECUNDÁRIO) */}
           <Link
             href={sector === "comercio" || sector === "industria" ? "/guia#cbs-ibs" : "/guia#setores"}
-            className="flex items-center justify-between p-4 rounded-3xl bg-gradient-to-r from-blue-50 via-white to-blue-50 border-2 border-blue-200/90 text-[#0040A8] hover:border-[#0040A8] hover:shadow-md transition-all group active:scale-98 text-xs sm:text-sm font-bold"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-blue-50 via-white to-blue-50 border-2 border-blue-200/90 text-[#0040A8] hover:border-[#0040A8] hover:shadow-md transition-all group active:scale-98 text-xs sm:text-sm font-bold"
           >
-            <span className="flex items-center gap-2">
-              <span className="text-base" aria-hidden="true">📖</span>
-              <span>Entenda as regras e alíquotas deste setor ({rates.label}) no Guia da Reforma</span>
+            <span className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+              <span className="text-lg flex-shrink-0 mt-0.5 sm:mt-0" aria-hidden="true">📖</span>
+              <span className="leading-snug">Entenda as regras e alíquotas deste setor ({rates.label}) no Guia da Reforma</span>
             </span>
-            <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform text-[#0040A8]">
+            <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform text-[#0040A8] flex-shrink-0 font-extrabold self-end sm:self-auto">
               <span>Acessar Guia</span>
               <span aria-hidden="true">→</span>
             </span>
@@ -717,11 +733,14 @@ export default function SimuladorIvaPage() {
 
                 {/* 3. Tabela de Repartição Federativa (CBS Federal vs IBS Estados/Municípios) */}
                 <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                  <div className="px-4 py-3 bg-slate-100/80 border-b border-slate-200 font-bold text-slate-700">
-                    Repartição Federativa Detalhada (Vigência Plena 2033)
+                  <div className="px-4 py-3 bg-slate-100/80 border-b border-slate-200 font-bold text-slate-700 flex items-center justify-between">
+                    <span>Repartição Federativa Detalhada (Vigência Plena 2033)</span>
+                  </div>
+                  <div className="sm:hidden px-4 py-1.5 bg-blue-50/70 border-b border-blue-100 text-[11px] font-bold text-[#0040A8] text-center">
+                    ← Deslize para visualizar todas as colunas →
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
+                    <table className="w-full text-left text-xs min-w-[540px] sm:min-w-0">
                       <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
                         <tr>
                           <th className="p-3">Tributo</th>
@@ -775,7 +794,7 @@ export default function SimuladorIvaPage() {
           </div>
 
           {/* GRÁFICO RECHARTS COMPARATIVO DINÂMICO */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
               <div>
                 <h2 className="text-base font-bold text-slate-900">
@@ -789,15 +808,16 @@ export default function SimuladorIvaPage() {
 
             <div className="h-72 sm:h-80 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
+                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -12, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                  <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#64748B" }} />
+                  <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#64748B" }} />
                   <YAxis
+                    width={46}
                     tickFormatter={(v) => `R$${(v / 1000).toFixed(0)}k`}
-                    tick={{ fontSize: 11, fill: "#64748B" }}
+                    tick={{ fontSize: 10, fill: "#64748B" }}
                   />
                   <Tooltip content={<CustomTooltip />} />
-                  <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} />
+                  <Legend wrapperStyle={{ fontSize: 10, paddingTop: 8 }} />
                   
                   {/* Linha guia do sistema antigo */}
                   <ReferenceLine
@@ -872,6 +892,20 @@ export default function SimuladorIvaPage() {
                 <span className="text-[10px] text-emerald-600 font-bold">Eliminação do efeito cascata</span>
               </div>
             </div>
+          </div>
+
+          {/* Botão Mobile para Voltar aos Parâmetros */}
+          <div className="lg:hidden pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("inputs");
+                window.scrollTo({ top: 280, behavior: "smooth" });
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold text-xs shadow-xs active:scale-98 min-h-[48px] cursor-pointer"
+            >
+              <span>← Alterar Parâmetros da Simulação</span>
+            </button>
           </div>
 
         </div>

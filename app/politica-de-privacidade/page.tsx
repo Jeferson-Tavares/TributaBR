@@ -48,8 +48,8 @@ export default function PoliticaDePrivacidadePage() {
         
         {/* Seção 1: Introdução e Compromisso */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <ShieldCheck className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <ShieldCheck className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>1. Introdução e Compromisso com a Privacidade</h2>
           </div>
           <p>
@@ -67,8 +67,8 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 2: Coleta e Tratamento de Dados */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <Eye className="w-5 h-5 text-[#009A44]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <Eye className="w-5 h-5 text-[#009A44] flex-shrink-0 mt-1" />
             <h2>2. Coleta e Tratamento de Dados</h2>
           </div>
           <p>
@@ -102,13 +102,13 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 3: Ferramentas de Simulação */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <Cpu className="w-5 h-5 text-[#FFC700]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <Cpu className="w-5 h-5 text-[#FFC700] flex-shrink-0 mt-1" />
             <h2>3. Ferramentas de Simulação e Privacidade das Informações</h2>
           </div>
           <p>
-            O portal disponibiliza ferramentas práticas como o <strong>Simulador de IVA Dual (CBS/IBS)</strong> e o 
-            <strong> Simulador de Multas Fiscais (PLP 108/2024)</strong>.
+            O portal disponibiliza ferramentas práticas como a <strong>Calculadora IVA Dual (CBS/IBS)</strong> e a 
+            <strong> Calculadora de Multas Fiscais (PLP 108/2024)</strong>.
           </p>
           <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-emerald-950 space-y-2">
             <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-[#009A44]">
@@ -126,8 +126,8 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 4: Google AdSense e Cookies de Terceiros */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <Cookie className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <Cookie className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>4. Publicidade, Google AdSense e Cookies de Terceiros</h2>
           </div>
           <p>
@@ -179,8 +179,8 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 5: Links para Sites de Terceiros */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <ExternalLink className="w-5 h-5 text-slate-600" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <ExternalLink className="w-5 h-5 text-slate-600 flex-shrink-0 mt-1" />
             <h2>5. Links Externos e Feeds de Notícias</h2>
           </div>
           <p>
@@ -197,8 +197,8 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 6: Isenção de Responsabilidade Legal */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <AlertCircle className="w-5 h-5 text-amber-600" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-1" />
             <h2>6. Isenção de Responsabilidade e Caráter Informativo</h2>
           </div>
           <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-amber-950 space-y-2 text-xs">
@@ -217,8 +217,8 @@ export default function PoliticaDePrivacidadePage() {
 
         {/* Seção 7: Alterações e Contato */}
         <section className="space-y-3 pt-2">
-          <div className="flex items-center gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
-            <FileText className="w-5 h-5 text-[#0040A8]" />
+          <div className="flex items-start gap-2.5 text-slate-900 font-extrabold text-lg pb-2 border-b border-slate-100">
+            <FileText className="w-5 h-5 text-[#0040A8] flex-shrink-0 mt-1" />
             <h2>7. Atualizações Desta Política e Canal de Contato</h2>
           </div>
           <p>

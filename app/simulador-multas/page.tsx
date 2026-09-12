@@ -12,6 +12,7 @@ import {
   Scale,
   Sparkles,
   HelpCircle,
+  ArrowRight,
   Plus,
   Minus,
 } from "lucide-react";
@@ -108,7 +109,7 @@ export default function SimuladorMultasPage() {
 
           {/* Valor do Tributo Autuado com Steppers Rápidos */}
           <div>
-            <div className="flex justify-between items-center mb-1">
+            <div className="flex flex-wrap justify-between items-center gap-1 mb-1.5">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Valor do Tributo Não Recolhido (R$)
               </label>
@@ -144,13 +145,13 @@ export default function SimuladorMultasPage() {
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex gap-1.5 mt-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-2">
               {[20000, 50000, 100000, 500000].map((quickVal) => (
                 <button
                   key={quickVal}
                   type="button"
                   onClick={() => setTributeValueInput(String(quickVal))}
-                  className="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-blue-50 hover:text-[#0040A8] text-slate-600 border border-slate-200 transition-colors"
+                  className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-blue-50 hover:text-[#0040A8] text-slate-600 border border-slate-200 transition-colors min-h-[36px] flex items-center justify-center"
                 >
                   R${quickVal / 1000}k
                 </button>
@@ -163,7 +164,7 @@ export default function SimuladorMultasPage() {
 
           {/* Alíquota de Multa Originalmente Lançada */}
           <div>
-            <div className="flex justify-between items-center mb-1">
+            <div className="flex flex-wrap justify-between items-center gap-1 mb-1.5">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Multa Original Lançada (%):
               </label>
@@ -282,6 +283,21 @@ export default function SimuladorMultasPage() {
               ))}
             </div>
           </div>
+
+          {/* Botão Mobile para Avançar para Resultados */}
+          <div className="pt-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("results");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="w-full py-3.5 px-4 rounded-2xl bg-[#0040A8] hover:bg-[#003080] active:scale-[0.99] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 transition-all min-h-[48px]"
+            >
+              <span>Ver Resultados & Descontos</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* COLUNA 2 & 3: CARDS DE RESULTADOS E TABELA PROGRESSIVA */}
@@ -355,6 +371,14 @@ export default function SimuladorMultasPage() {
                   Valores calculados sobre a multa ajustada de {formatBRL(result.cappedPenalty)}.
                 </p>
               </div>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider hidden sm:inline-block">
+                PLP 108/2024
+              </span>
+            </div>
+
+            {/* Indicador de scroll horizontal no mobile */}
+            <div className="block sm:hidden text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-medium">
+              ↔ Deslize para os lados para ver descontos e valores
             </div>
 
             {/* Tabela com scroll horizontal no mobile */}
@@ -429,6 +453,19 @@ export default function SimuladorMultasPage() {
             </div>
           </div>
 
+          {/* Botão Mobile para Voltar e Alterar Parâmetros */}
+          <div className="pt-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("inputs");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="w-full py-3 px-4 rounded-2xl bg-white border border-slate-300 hover:bg-slate-50 active:bg-slate-100 text-slate-700 font-bold text-sm shadow-2xs flex items-center justify-center gap-2 transition-all min-h-[44px]"
+            >
+              <span>← Alterar Dados da Infração</span>
+            </button>
+          </div>
         </div>
       </div>
 

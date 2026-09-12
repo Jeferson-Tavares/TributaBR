@@ -17,8 +17,8 @@ export default function Footer() {
               desenvolvida para desmistificar a Nova Reforma Tributária do Brasil (EC nº 132/2023, PLP 68/2024 e PLP 108/2024),
               apoiando cidadãos, empresários e profissionais contábeis.
             </p>
-            <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-2.5 max-w-md">
-              <ShieldCheck className="w-4 h-4 text-[#009A44] flex-shrink-0" />
+            <div className="flex items-start gap-2.5 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3 max-w-md">
+              <ShieldCheck className="w-4 h-4 text-[#009A44] flex-shrink-0 mt-0.5" />
               <span>Baseado nas diretrizes legais da EC nº 132/2023, PLP 68/2024, PLP 108/2024 e jurisprudência do STF.</span>
             </div>
           </div>
@@ -44,7 +44,7 @@ export default function Footer() {
                   className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
                 >
                   <Calculator className="w-3.5 h-3.5 text-[#009A44]" />
-                  Simulador de IVA Dual (CBS/IBS)
+                  Calculadora IVA Dual (CBS/IBS)
                 </Link>
               </li>
               <li>
@@ -53,7 +53,7 @@ export default function Footer() {
                   className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
                 >
                   <Shield className="w-3.5 h-3.5 text-[#FFC700]" />
-                  Simulador de Multas (PLP 108)
+                  Calculadora de Multas (PLP 108)
                 </Link>
               </li>
               <li>
