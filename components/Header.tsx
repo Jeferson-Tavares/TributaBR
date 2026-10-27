@@ -47,6 +47,15 @@ const NAV_LINKS = [
     category: "simulador",
   },
   {
+    href: "/split-payment",
+    label: "Split Payment",
+    shortLabel: "Split Payment",
+    description: "Segregação e recolhimento instantâneo de IBS e CBS (LC 214/2025)",
+    icon: <Layers className="w-4 h-4" />,
+    badge: "LC 214",
+    category: "conteudo",
+  },
+  {
     href: "/noticias",
     label: "Notícias & Radar",
     shortLabel: "Notícias",

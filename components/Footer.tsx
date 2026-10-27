@@ -58,6 +58,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/split-payment"
+                  className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+                  Split Payment (LC 214)
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/noticias"
                   className="text-slate-600 hover:text-[#0040A8] font-medium flex items-center gap-2 transition-colors"
                 >
