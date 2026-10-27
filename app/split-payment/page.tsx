@@ -222,16 +222,7 @@ export default function SplitPaymentPage() {
       />
 
       <main className="min-h-screen bg-slate-50 text-slate-800 antialiased pb-20">
-        {/* Breadcrumb Navigation */}
-        <div className="bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <nav className="flex items-center text-xs sm:text-sm text-slate-500 font-medium" aria-label="Breadcrumb">
-              <Link href="/" className="hover:text-blue-700 transition-colors">Início</Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-slate-400" />
-              <span className="text-slate-900 font-semibold" aria-current="page">Split Payment</span>
-            </nav>
-          </div>
-        </div>
+
 
         {/* HERO HEADER */}
         <header className="bg-gradient-to-b from-blue-900 via-blue-800 to-indigo-900 text-white py-16 sm:py-20 border-b border-blue-950">
